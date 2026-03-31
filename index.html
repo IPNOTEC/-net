@@ -80,7 +80,7 @@ body::after {
 .sb-live { display: flex; align-items: center; gap: 5px; font-size: 0.6rem; color: var(--g); letter-spacing: 0.1em; }
 .sb-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--g); box-shadow: 0 0 6px var(--g); animation: blink 1.8s ease-in-out infinite; }
 .sb-clock { font-size: 0.62rem; color: #4a8a4a; letter-spacing: 0.1em; }
-.sb-ccname { font-size: 0.52rem; color: var(--g); letter-spacing: 0.12em; text-shadow: 0 0 6px var(--g); display: none; }
+.sb-ccname { font-size: 0.52rem; color: #FF6200; letter-spacing: 0.12em; text-shadow: 0 0 6px rgba(255,98,0,0.6); display: none; }
 @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0.25;} }
 .screen {
   position: absolute;
@@ -559,7 +559,7 @@ body::after {
 .ci-badge-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--g); box-shadow: 0 0 5px var(--g); animation: blink 1.6s infinite; }
 .ci-badge-txt { font-size: 0.58rem; color: var(--g); letter-spacing: 0.14em; }
 .ci-admin-badge { font-size: 0.42rem; letter-spacing: 0.18em; background: var(--g); color: #000; padding: 2px 7px; font-family: var(--head); font-weight: 700; }
-.ci-you-tag { font-size: 0.58rem; color: var(--g); text-shadow: 0 0 6px var(--g); letter-spacing: 0.08em; }
+.ci-you-tag { font-size: 0.58rem; color: #FF6200; text-shadow: 0 0 6px rgba(255,98,0,0.5); letter-spacing: 0.08em; }
 .ci-timer { font-family: var(--head); font-size: 0.72rem; color: var(--g); letter-spacing: 0.08em; }
 .ci-timer-lbl { font-size: 0.45rem; color: #3a6a3a; letter-spacing: 0.1em; margin-top: 2px; }
 .tape-bar { background: #000; border-bottom: 1px solid #0a0a0a; padding: 6px 14px 4px; flex-shrink: 0; }
@@ -588,12 +588,12 @@ body::after {
 .chat-log { flex: 1; overflow-y: auto; padding: 8px 14px; display: flex; flex-direction: column; gap: 0; min-height: 120px; max-height: 240px; }
 .chat-msg { display: flex; align-items: baseline; gap: 8px; padding: 4px 0; border-bottom: 1px solid #060606; animation: msgIn 0.3s ease both; }
 @keyframes msgIn { from{opacity:0;transform:translateY(4px);} to{opacity:1;transform:translateY(0);} }
-.cm-time { font-size: 0.56rem; color: #2a5a2a; flex-shrink: 0; }
-.cm-sq { width: 10px; height: 10px; flex-shrink: 0; align-self: center; }
-.cm-id { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.05em; flex-shrink: 0; }
-.cm-admin-tag { font-size: 0.46rem; background: var(--g); color: #000; padding: 2px 5px; font-family: var(--head); font-weight: 700; letter-spacing: 0.1em; flex-shrink: 0; align-self: center; }
-.cm-arrow { font-size: 0.56rem; color: #2a5a2a; flex-shrink: 0; }
-.cm-text { font-size: 0.82rem; color: #888; flex: 1; line-height: 1.5; }
+.cm-time { font-size: 0.4rem; color: #2a5a2a; flex-shrink: 0; }
+.cm-sq { width: 8px; height: 8px; flex-shrink: 0; align-self: center; }
+.cm-id { font-size: 0.5rem; font-weight: 700; letter-spacing: 0.05em; flex-shrink: 0; }
+.cm-admin-tag { font-size: 0.36rem; background: var(--g); color: #000; padding: 1px 4px; font-family: var(--head); font-weight: 700; letter-spacing: 0.1em; flex-shrink: 0; align-self: center; }
+.cm-arrow { font-size: 0.4rem; color: #2a5a2a; flex-shrink: 0; }
+.cm-text { font-size: 0.57rem; color: #888; flex: 1; line-height: 1.5; }
 .cm-text.you { color: var(--g); }
 .chat-msg.ping-response { animation: pingFlash 0.6s ease both; }
 @keyframes pingFlash { 0%{background:rgba(57,255,20,0.08);} 100%{background:transparent;} }
@@ -699,40 +699,43 @@ body::after {
 .sweep-overlay { position: fixed; inset: 0; z-index: 880; background: rgba(0,0,0,0.96); display: none; align-items: center; justify-content: center; overflow: hidden; }
 .sweep-overlay.open { display: flex; }
 .sweep-inner-16-9 { width: min(100vw, calc(100vh * 16 / 9)); height: min(100vh, calc(100vw * 9 / 16)); aspect-ratio: 16 / 9; display: flex; flex-direction: column; overflow: hidden; border: 1px solid #1a3a3a; background: #000; }
-/* PATCH: Mobile sweep - full screen on portrait/small screens */
+/* PATCH: Mobile sweep - 4 stacked sections */
 @media (max-width: 600px), (orientation: portrait) {
   .sweep-inner-16-9 { width: 100vw !important; height: 100vh !important; aspect-ratio: unset !important; border: none !important; }
-  .sweep-grid { flex-direction: column !important; }
-  .sweep-left { flex: 1.2 !important; border-right: none !important; border-bottom: 1px solid #0a1a0a; }
-  .sweep-right { flex: 0.8 !important; }
-  .sweep-bars-section { height: 56px !important; min-height: 56px !important; }
+  .sweep-sec-eq { height: 130px !important; min-height: 130px !important; }
+  #sweep-bars-canvas { height: 100px !important; }
 }
-.sweep-topbar { height: 48px; min-height:48px; background: #000; border-bottom: 1px solid #1a1a1a; display: flex; align-items: center; justify-content: space-between; padding: 0 14px; flex-shrink: 0; }
 .sweep-title { font-family: var(--head); font-size: 0.68rem; font-weight: 900; letter-spacing: 0.18em; color: var(--b); text-shadow: 0 0 10px var(--b); }
-.sweep-node-counter { font-family: var(--head); font-size: 0.52rem; font-weight: 700; color: var(--g); letter-spacing: 0.1em; }
+.sweep-node-counter { font-family: var(--head); font-size: 0.48rem; font-weight: 700; color: var(--g); letter-spacing: 0.1em; }
 .sweep-alert-badge { font-size: 0.46rem; font-weight: 700; letter-spacing: 0.12em; padding: 2px 8px; display: none; }
 .sweep-alert-badge.green { display: inline-block; border: 1px solid var(--g); color: var(--g); }
 .sweep-alert-badge.yellow { display: inline-block; border: 1px solid var(--y); color: var(--y); background: rgba(255,230,0,0.06); }
 .sweep-alert-badge.red { display: inline-block; border: 1px solid var(--r); color: var(--r); background: rgba(255,34,68,0.08); animation: redPulse 1s ease-in-out infinite; }
 @keyframes redPulse { 0%,100%{box-shadow:0 0 0 rgba(255,34,68,0);} 50%{box-shadow:0 0 14px rgba(255,34,68,0.5);} }
-.sweep-grid { flex: 1; display: flex; overflow: hidden; min-height: 0; }
-.sweep-left { flex: 1.2; display: flex; flex-direction: column; border-right: 1px solid #0a1a0a; overflow: hidden; }
-.sweep-right { flex: 0.8; display: flex; flex-direction: column; overflow: hidden; }
-.sweep-radar-wrap { flex: 1; position: relative; overflow: hidden; min-height: 0; }
-.sweep-radar-wrap canvas { width: 100%; height: 100%; display: block; }
+.sweep-grid { flex: 1; display: flex; flex-direction: column; overflow: hidden; min-height: 0; }
+.sweep-sec-radar { flex: 2; position: relative; overflow: hidden; min-height: 0; border-bottom: 1px solid #0a1a0a; }
+.sweep-sec-radar canvas { width: 100%; height: 100%; display: block; }
 .sweep-radar-label { position: absolute; bottom: 6px; left: 10px; font-size: 0.42rem; color: var(--g); letter-spacing: 0.12em; }
-.sweep-bars-section { height: 72px; min-height: 72px; border-top: 1px solid #0a1a0a; display: flex; flex-direction: column; padding: 4px 8px; }
+.sweep-sec-chat { flex: 1; display: flex; flex-direction: column; overflow: hidden; min-height: 80px; border-bottom: 1px solid #0a1a0a; }
+.sweep-sec-eq { flex-shrink: 0; padding: 4px 8px; height: 120px; min-height: 120px; }
 .sweep-bars-head { display: flex; justify-content: space-between; align-items: center; font-size: 0.38rem; color: #4a8a4a; letter-spacing: 0.1em; margin-bottom: 3px; }
-#sweep-bars-canvas { width: 100%; height: 44px; display: block; }
+#sweep-bars-canvas { width: 100%; height: 90px; display: block; }
 .sweep-chat-head { display: flex; align-items: center; gap: 6px; padding: 8px 10px; font-size: 0.46rem; color: var(--g); letter-spacing: 0.12em; border-bottom: 1px solid #0a1a0a; flex-shrink: 0; }
 .sweep-chat-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--g); box-shadow: 0 0 4px var(--g); animation: blink 1.6s infinite; }
 .sweep-chat-log { flex: 1; overflow-y: auto; padding: 4px 8px; min-height: 0; }
 .sweep-chat-log::-webkit-scrollbar { width: 2px; }
 .sweep-chat-log::-webkit-scrollbar-thumb { background: #1d4a1d; }
 .sw-msg { display: flex; align-items: baseline; gap: 4px; padding: 2px 0; font-size: 0.46rem; line-height: 1.6; border-bottom: 1px solid #040404; }
-.sw-msg-time { color: #2a2a2a; flex-shrink: 0; font-size: 0.4rem; }
-.sw-msg-name { font-weight: 700; flex-shrink: 0; }
-.sw-msg-text { color: #666; }
+.sw-msg-time { color: #2a2a2a; flex-shrink: 0; font-size: 0.36rem; }
+.sw-msg-name { font-weight: 700; flex-shrink: 0; color: #fff !important; }
+.sw-msg-text { /* persona color set inline by JS */ }
+/* Sweep topbar — 2 lines */
+.sweep-topbar { background: #000; border-bottom: 1px solid #1a1a1a; display: flex; flex-direction: column; padding: 0; flex-shrink: 0; }
+.sweep-top-line1 { display: flex; align-items: center; justify-content: space-between; padding: 6px 14px; border-bottom: 1px solid #0a0a0a; }
+.sweep-top-line2 { display: flex; align-items: center; justify-content: center; gap: 10px; padding: 4px 14px; }
+.sweep-top-line2 .sweep-alert-badge { margin: 0; }
+.sweep-kick-btn { padding: 3px 10px; background: rgba(255,34,68,0.08); border: 1px solid var(--r); color: var(--r); font-family: var(--head); font-size: 0.42rem; font-weight: 700; letter-spacing: 0.1em; cursor: pointer; transition: all 0.15s; }
+.sweep-kick-btn:hover { background: var(--r); color: #000; }
 .sweep-threshold-box { flex-shrink: 0; min-height: 0; overflow: hidden; display: none; border-top: 1px solid #0a0a0a; }
 .sweep-threshold-box.show { display: block; }
 .sweep-threshold-inner { padding: 8px 10px; font-size: 0.46rem; letter-spacing: 0.08em; line-height: 1.7; }
@@ -741,33 +744,27 @@ body::after {
 .sweep-threshold-inner.alert-red { color: var(--r); border-left: 3px solid var(--r); background: rgba(255,34,68,0.04); }
 .btn-kick-oldest { margin-top: 4px; padding: 5px 12px; background: rgba(255,34,68,0.1); border: 1px solid var(--r); color: var(--r); font-family: var(--head); font-size: 0.44rem; font-weight: 700; letter-spacing: 0.12em; cursor: pointer; transition: all 0.2s; }
 .btn-kick-oldest:hover { background: var(--r); color: #000; }
-/* FLASH MODE — cinematic BLACK→B&W→GREEN→WHITE→NORMAL */
-body.admin-flash .shell { transition: filter 1.2s ease; }
-body.admin-flash-bw .shell { filter: grayscale(1) brightness(0.8) !important; }
-body.admin-flash-green .shell { filter: grayscale(0) brightness(1.1) saturate(2) !important; }
-body.admin-flash-white .shell { filter: brightness(1.6) contrast(1.2) !important; }
-body.admin-flash-bw .status-bar { background: #222 !important; transition: background 0.8s; }
-body.admin-flash-green .status-bar { background: var(--g) !important; transition: background 0.8s; }
-body.admin-flash-green .sb-brand { color: #000 !important; text-shadow: none !important; }
-body.admin-flash-white .status-bar { background: #fff !important; transition: background 0.8s; }
-body.admin-flash-white .sb-brand { color: #000 !important; text-shadow: none !important; }
-#admin-flash-overlay {
-  position: fixed; inset: 0; z-index: 9995; display: flex;
-  flex-direction: column; align-items: center; justify-content: center;
-  pointer-events: none; transition: background 1.5s ease;
-}
-#admin-flash-overlay.phase-black { background: rgba(0,0,0,0.95); }
-#admin-flash-overlay.phase-bw { background: rgba(0,0,0,0.7); }
-#admin-flash-overlay.phase-green { background: rgba(57,255,20,0.06); }
-#admin-flash-overlay.phase-white { background: rgba(255,255,255,0.04); }
-#admin-flash-overlay .afo-line {
-  font-family: var(--font); font-size: 0.5rem; letter-spacing: 0.14em;
-  text-align: center; margin: 3px 0;
-  opacity: 0; transform: translateY(6px);
-  transition: opacity 0.5s ease, transform 0.5s ease, color 1.2s ease;
-}
-#admin-flash-overlay .afo-line.visible { opacity: 1; transform: translateY(0); }
-#admin-flash-overlay .afo-line.title { font-family: var(--head); font-size: 0.82rem; font-weight: 900; letter-spacing: 0.22em; }
+/* ADMIN B&W MODE — 16s grayscale, admin messages GREEN, persona border-top stays colored */
+body.admin-bw .conn-infobar,
+body.admin-bw .radio-icons-bar,
+body.admin-bw .mini-graphs,
+body.admin-bw .tape-bar,
+body.admin-bw .radar-section,
+body.admin-bw .sweep-bar,
+body.admin-bw .footer-bar,
+body.admin-bw .status-bar { filter: grayscale(1); transition: filter 1s ease; }
+/* Chat head + input row go grey, but NOT chat-section itself (border-top stays colored) */
+body.admin-bw .chat-head,
+body.admin-bw .chat-inp-row { filter: grayscale(1); transition: filter 1s ease; }
+/* Chat messages: color override to B&W */
+body.admin-bw .cm-sq { filter: grayscale(1) !important; }
+body.admin-bw .cm-id { color: #777 !important; text-shadow: none !important; }
+body.admin-bw .cm-text { color: #555 !important; }
+body.admin-bw .cm-time { color: #333 !important; }
+body.admin-bw .cm-arrow { color: #222 !important; }
+/* ADMIN messages BREAK THROUGH in green */
+body.admin-bw .cm-text.you { color: var(--g) !important; text-shadow: 0 0 8px var(--g) !important; }
+body.admin-bw .cm-admin-tag { background: var(--g) !important; color: #000 !important; }
 .geo-lock-box { border: 1px solid rgba(57,255,20,0.3); background: rgba(57,255,20,0.02); padding: 10px 12px; margin-bottom: 12px; display: none; }
 .geo-lock-box.show { display: block; }
 .geo-lock-title { font-size: 0.44rem; letter-spacing: 0.22em; color: #4a7a4a; margin-bottom: 8px; }
@@ -784,10 +781,10 @@ body.admin-flash-white .sb-brand { color: #000 !important; text-shadow: none !im
 .rio-icon { font-size: 0.75rem; color: var(--g); line-height:1; }
 .rio-val { font-family: var(--head); font-size: 0.5rem; font-weight: 700; color: #fff; letter-spacing: 0.06em; margin-top: 2px; }
 .rio-lbl { font-size: 0.36rem; color: #3a6a3a; letter-spacing: 0.12em; margin-top: 1px; }
-.mini-graphs { display: none; background: #000; flex-shrink: 0; border-bottom: 1px solid #080808; padding: 5px 12px 4px; }
+.mini-graphs { display: none; background: #000; flex-shrink: 0; border-top: 1px solid rgba(57,255,20,0.15); border-bottom: 1px solid rgba(57,255,20,0.15); padding: 3px 8px 2px; }
 .mini-graphs.show { display: block; }
-.mg-label { font-size: 0.38rem; color: #2a5a2a; letter-spacing: 0.16em; margin-bottom: 3px; }
-#graph-canvas { display:block; width:100%; height:36px; }
+.mg-label { font-size: 0.38rem; color: #2a5a2a; letter-spacing: 0.16em; margin-bottom: 2px; }
+#graph-canvas { display:block; width:100%; height:52px; }
 .admin-trigger { display: none !important; }
 .ci-admin-btn { padding: 3px 10px; background: rgba(57,255,20,0.06); border: 1px solid rgba(57,255,20,0.3); color: var(--g); font-family: var(--font); font-size: 0.4rem; letter-spacing: 0.1em; cursor: pointer; transition: all 0.2s; display: none; white-space: nowrap; }
 .ci-admin-btn.show { display: block; }
@@ -1236,22 +1233,28 @@ body.admin-flash-white .sb-brand { color: #000 !important; text-shadow: none !im
 <div class="sweep-overlay" id="sweep-overlay">
   <div class="sweep-inner-16-9">
     <div class="sweep-topbar">
-      <div class="sweep-title">◈ RECON SWEEP</div>
-      <div style="display:flex;align-items:center;gap:10px;">
-        <div class="sweep-node-counter"><span id="sweep-nodes">--</span> / 55 NODES</div>
-        <div class="sweep-alert-badge" id="sweep-alert-badge"></div>
+      <div class="sweep-top-line1">
+        <div class="sweep-title">◈ RECON SWEEP</div>
         <button class="at-close" onclick="closeSweep()">CLOSE ✕</button>
+      </div>
+      <div class="sweep-top-line2">
+        <div class="sweep-node-counter"><span id="sweep-nodes">--</span> / 55</div>
+        <div class="sweep-alert-badge" id="sweep-alert-badge"></div>
+        <button class="sweep-kick-btn" id="sweep-kick-btn" onclick="kickOldestSweepNode()">KICK OLDEST</button>
       </div>
     </div>
     <div class="sweep-grid">
-      <div class="sweep-left">
-        <div class="sweep-radar-wrap"><canvas id="sweep-radar-canvas"></canvas><div class="sweep-radar-label" id="sweep-radar-label">SCANNING MESH…</div></div>
-        <div class="sweep-bars-section"><div class="sweep-bars-head"><span>■ NODE ACTIVITY · 1→55</span><span id="sweep-bars-online">0 ONLINE</span></div><canvas id="sweep-bars-canvas"></canvas></div>
+      <div class="sweep-sec-radar">
+        <canvas id="sweep-radar-canvas"></canvas>
+        <div class="sweep-radar-label" id="sweep-radar-label">SCANNING MESH…</div>
       </div>
-      <div class="sweep-right">
+      <div class="sweep-sec-chat">
         <div class="sweep-chat-head"><div class="sweep-chat-dot"></div><span>LIVE MESH CHAT</span><span id="sweep-chat-count" style="margin-left:auto;color:#4a8a4a;">0</span></div>
         <div class="sweep-chat-log" id="sweep-chat-log"></div>
-        <div class="sweep-threshold-box" id="sweep-threshold-box"><div class="sweep-threshold-inner" id="sweep-threshold-inner"></div></div>
+      </div>
+      <div class="sweep-sec-eq">
+        <div class="sweep-bars-head"><span>■ NODE ACTIVITY · 1→55</span><span id="sweep-bars-online">0 ONLINE</span></div>
+        <canvas id="sweep-bars-canvas"></canvas>
       </div>
     </div>
   </div>
@@ -1420,7 +1423,7 @@ function runReloginOTP() {
   setTimeout(()=>{ DEMO.forEach((_,i)=>setTimeout(()=>{ document.getElementById('rl-od'+i).classList.remove('lit'); document.getElementById('rl-od'+i).classList.add('done'); },i*50)); playVerified(); playSuccess();
     document.getElementById('rl-otp-status').textContent='✓ AUTHENTICATED · WELCOME BACK'; document.getElementById('rl-otp-status').classList.add('verified');
     setTimeout(()=>{ fillLiveScreen(); document.getElementById('sb-ccname').style.display='block'; document.getElementById('sb-ccname').textContent=S.ccName; S.color={key:'G',name:S.ccName||'ADMIN',hex:'#39FF14'}; setupCCDashboard(); goScreen('sc-connected');
-      const _atb=document.getElementById('admin-trigger-btn'); if(_atb) _atb.classList.add('show'); document.getElementById('at-cc-name').textContent=S.ccName; document.getElementById('fb-online').textContent=networkNodes.length+1; document.getElementById('fb-nodes').textContent=networkNodes.length+1; generateTapeDots(); startSession(); },1200); },2000);
+      const _atb=document.getElementById('admin-trigger-btn'); if(_atb) _atb.classList.add('show'); document.getElementById('at-cc-name').textContent=S.ccName; document.getElementById('fb-online').textContent=networkNodes.length+1; document.getElementById('fb-nodes').textContent=networkNodes.length+1; generateTapeDots(); startSession(); showDashboardExtras(); },1200); },2000);
 }
 /* KYC: ID TYPE */
 function selectIDType(type) {
@@ -1497,7 +1500,7 @@ function runHWOTP() {
 function enterCC() { S.color={key:'G',name:S.ccName||'ADMIN',hex:'#39FF14'}; setupCCDashboard(); goScreen('sc-connected'); const _atb=document.getElementById('admin-trigger-btn'); if(_atb) _atb.classList.add('show'); document.getElementById('at-cc-name').textContent=S.ccName; document.getElementById('fb-online').textContent=networkNodes.length+1; document.getElementById('fb-nodes').textContent=networkNodes.length+1; generateTapeDots(); startSession(); showDashboardExtras(); }
 function setupCCDashboard() {
   const c=S.color; document.getElementById('sb-ccname').style.display='block'; document.getElementById('sb-ccname').textContent=c.name; document.getElementById('ci-you-name').textContent=c.name;
-  document.getElementById('radar-you-label').innerHTML='<span style="color:'+c.hex+';text-shadow:0 0 6px '+c.hex+';">■ '+c.name+'</span> [ADMIN]';
+  document.getElementById('radar-you-label').innerHTML='<span style="color:#FF6200;text-shadow:0 0 6px rgba(255,98,0,0.5);">■ '+c.name+'</span> [ADMIN]';
   document.getElementById('chat-you-sq').style.background=c.hex; document.getElementById('chat-you-sq').style.boxShadow='0 0 5px '+c.hex; document.getElementById('chat-inp').placeholder='['+c.name+'] TYPE A MESSAGE…'; document.getElementById('chat-head-title').textContent=c.name+' · I-NET NODE'; document.getElementById('sweep-nodes').textContent=networkNodes.length+1;
   initRadar(); seedChat(); S.dataUsed=Math.floor(Math.random()*10+2); S.hourlyData=Array.from({length:8},()=>0);
   setInterval(()=>{ S.dataUsed+=Math.random()*8+1; const slot=Math.min(Math.floor((24*3600-S.sessionSecs)/(3*3600)),7); if(!S.hourlyData[slot]) S.hourlyData[slot]=0; S.hourlyData[slot]+=Math.random()*12; },8000);
@@ -1630,8 +1633,8 @@ function addChatMessage(key, name, hex, text, isYou, isResponse) {
   al.appendChild(ad); al.scrollTop=al.scrollHeight;
   allChatMessages.push({t,key,name:displayName,hex,text,isYou});
   const meta=document.getElementById('exp-chat-meta'); if(meta) meta.textContent=allChatMessages.length+' MESSAGES';
-  if(!isYou && !isResponse) { playChatReceive(); updateSweepColor(hex); }
-  if(isYou && typeof triggerAdminFlash==='function') triggerAdminFlash();
+  if(!isYou && !isResponse) { playChatReceive(); updateSweepColor(hex); drawMiniGraph(hex); }
+  if(isYou && typeof triggerAdminFlash==='function') { triggerAdminFlash(); drawMiniGraph('#39FF14'); }
   if(typeof addSweepChatMsg==='function') addSweepChatMsg({t,key,name:isYou?(S.ccName||name):displayName,hex,text,isYou});
 }
 
@@ -1651,7 +1654,7 @@ function sendChat() {
 
 function autoChatLoop() {
   const msgs=['RECON 505 mesh is solid today','signal strength is insane here','who else is grinding on a pitch?','need a designer for 20 mins','great investor call just wrapped','decentralised is the only way','55 nodes and zero lag. respect.','anyone free for a cowork session?','just pushed to prod. live now','mesh uptime has been perfect','new node just joined the network','who is on the second floor?','just closed a deal. celebrate!','charger? near the window pls','anyone in deep work? send a wave','build is live. fingers crossed','I-NET sweep just cleared 48MB','running a hotspot session rn','anyone else getting great focus here?','hot take: async beats meetings','slide 12 is killing me rn','still on that deck. send help','anyone on SaaS infra tonight?','quiet day. perfect for deep work','loving this I-NET setup here','just hit 100k arr. unreal.'];
-  function send() { const node=networkNodes[Math.floor(Math.random()*networkNodes.length)]; const text=msgs[Math.floor(Math.random()*msgs.length)]; addChatMessage(node.key,node.name,node.hex,text,false); setTimeout(send,5000+Math.random()*8000); }
+  function send() { const node=networkNodes[Math.floor(Math.random()*networkNodes.length)]; const text=msgs[Math.floor(Math.random()*msgs.length)]; addChatMessage(node.key,node.name,node.hex,text,false); setTimeout(send,2500+Math.random()*4000); }
   setTimeout(send,3000);
 }
 /* SESSION */
@@ -1754,16 +1757,20 @@ function drawSweepRadar(canvas,cx,cy,maxR,W,H) {
     sweepRadarAF=requestAnimationFrame(frame);
   } frame();
 }
-function drawSweepBars() { const canvas=document.getElementById('sweep-bars-canvas'); if(!canvas) return; const wrap=canvas.parentElement; const W=wrap.clientWidth-4; const H=44; canvas.width=W;canvas.height=H; const ctx=canvas.getContext('2d'); ctx.clearRect(0,0,W,H); const barW=Math.max(1,Math.floor(W/SWEEP_MAX)-1); sweepLiveNodes.forEach((n,i)=>{ if(!n.online) return; const h=4+n.activity*(H-8); ctx.fillStyle=n.hex; ctx.globalAlpha=0.7+n.activity*0.3; ctx.fillRect(i*(barW+1),H-h,barW,h); }); ctx.globalAlpha=1; document.getElementById('sweep-bars-online').textContent=sweepLiveNodes.filter(n=>n.online).length+' ONLINE'; }
+function drawSweepBars() { const canvas=document.getElementById('sweep-bars-canvas'); if(!canvas) return; const wrap=canvas.parentElement; const W=wrap.clientWidth-4; const H=60; canvas.width=W;canvas.height=H; const ctx=canvas.getContext('2d'); ctx.clearRect(0,0,W,H); const barW=Math.max(1,Math.floor(W/SWEEP_MAX)-1); sweepLiveNodes.forEach((n,i)=>{ if(!n.online) return; const h=4+n.activity*(H-8); ctx.fillStyle=n.hex; ctx.globalAlpha=0.7+n.activity*0.3; ctx.fillRect(i*(barW+1),H-h,barW,h); }); ctx.globalAlpha=1; document.getElementById('sweep-bars-online').textContent=sweepLiveNodes.filter(n=>n.online).length+' ONLINE'; }
 function startSweepChatFeed() { const log=document.getElementById('sweep-chat-log'); if(!log) return; log.innerHTML=''; sweepChatMsgs=[]; allChatMessages.slice(-8).forEach(m=>addSweepChatMsg(m)); }
-function addSweepChatMsg(m) { if(!sweepOpen) return; const log=document.getElementById('sweep-chat-log'); if(!log) return; const div=document.createElement('div'); div.className='sw-msg'; div.innerHTML='<span class="sw-msg-time">['+m.t+']</span><span class="sw-msg-name" style="color:'+m.hex+';">'+m.name+'</span><span class="sw-msg-text">'+m.text+'</span>'; log.appendChild(div); if(log.children.length>30) log.removeChild(log.firstChild); log.scrollTop=log.scrollHeight; sweepChatMsgs.push(m); const cntEl=document.getElementById('sweep-chat-count'); if(cntEl) cntEl.textContent=sweepChatMsgs.length; }
+function addSweepChatMsg(m) { if(!sweepOpen) return; const log=document.getElementById('sweep-chat-log'); if(!log) return; const div=document.createElement('div'); div.className='sw-msg'; div.innerHTML='<span class="sw-msg-time">['+m.t+']</span><span class="sw-msg-name">'+m.name+'</span><span class="sw-msg-text" style="color:'+m.hex+';">'+m.text+'</span>'; log.appendChild(div); if(log.children.length>30) log.removeChild(log.firstChild); log.scrollTop=log.scrollHeight; sweepChatMsgs.push(m); const cntEl=document.getElementById('sweep-chat-count'); if(cntEl) cntEl.textContent=sweepChatMsgs.length; }
 function updateSweepThresholds() {
-  const onlineCount=sweepLiveNodes.filter(n=>n.online).length; const badge=document.getElementById('sweep-alert-badge'); const box=document.getElementById('sweep-threshold-box'); const inner=document.getElementById('sweep-threshold-inner'); const nodesEl=document.getElementById('sweep-nodes'); if(nodesEl) nodesEl.textContent=onlineCount;
-  badge.className='sweep-alert-badge'; box.classList.remove('show'); inner.className='sweep-threshold-inner'; inner.innerHTML='';
-  if(onlineCount>=50){badge.className='sweep-alert-badge red';badge.textContent='⚠ RED ALERT';box.classList.add('show');inner.className='sweep-threshold-inner alert-red';const oldest=sweepLiveNodes.filter(n=>n.online).sort((a,b)=>a.lastActive-b.lastActive)[0];inner.innerHTML='⚠ CAPACITY CRITICAL: '+onlineCount+'/55 NODES<br>MESH AT '+Math.round(onlineCount/55*100)+'% — RECOMMEND KICK OLDEST INACTIVE<br>'+(oldest?'<span style="color:#fff;">OLDEST: <span style="color:'+oldest.hex+';">'+oldest.name+'</span> · IDLE '+Math.round((Date.now()-oldest.lastActive)/60000)+'m</span><br>':'')+'<button class="btn-kick-oldest" onclick="kickOldestSweepNode()">KICK '+(oldest?oldest.name:'OLDEST')+' →</button>';}
-  else if(onlineCount>=30){badge.className='sweep-alert-badge yellow';badge.textContent='● '+onlineCount;box.classList.add('show');inner.className='sweep-threshold-inner alert-yellow';inner.innerHTML='■ HIGH LOAD: '+onlineCount+'/55 NODES ACTIVE<br>MESH PERFORMING WELL · MONITOR CLOSELY';}
-  else if(onlineCount>=10){badge.className='sweep-alert-badge green';badge.textContent='● '+onlineCount;box.classList.add('show');inner.className='sweep-threshold-inner alert-green';inner.innerHTML='■ HEALTHY: '+onlineCount+' NODES ACTIVE<br>MESH OPERATING NORMALLY';}
-  else{badge.className='sweep-alert-badge green';badge.textContent='● '+onlineCount;}
+  const onlineCount=sweepLiveNodes.filter(n=>n.online).length; const badge=document.getElementById('sweep-alert-badge'); const nodesEl=document.getElementById('sweep-nodes'); if(nodesEl) nodesEl.textContent=onlineCount;
+  const kickBtn=document.getElementById('sweep-kick-btn');
+  const oldest=sweepLiveNodes.filter(n=>n.online).sort((a,b)=>a.lastActive-b.lastActive)[0];
+  if(kickBtn && oldest) kickBtn.textContent='KICK '+oldest.name;
+  else if(kickBtn) kickBtn.textContent='KICK OLDEST';
+  if(badge) badge.className='sweep-alert-badge';
+  if(onlineCount>=50){if(badge){badge.className='sweep-alert-badge red';badge.textContent='⚠ RED ALERT';}}
+  else if(onlineCount>=30){if(badge){badge.className='sweep-alert-badge yellow';badge.textContent='● '+onlineCount;}}
+  else if(onlineCount>=10){if(badge){badge.className='sweep-alert-badge green';badge.textContent='● '+onlineCount;}}
+  else{if(badge){badge.className='sweep-alert-badge green';badge.textContent='● '+onlineCount;}}
 }
 function kickOldestSweepNode() { const oldest=sweepLiveNodes.filter(n=>n.online).sort((a,b)=>a.lastActive-b.lastActive)[0]; if(!oldest) return; oldest.online=false; playDisconnect(); updateSweepThresholds(); drawSweepBars(); }
 let sweepEmulInterval=null;
@@ -1771,88 +1778,27 @@ function startSweepEmulation() { if(sweepEmulInterval) clearInterval(sweepEmulIn
 startSweepEmulation();
 setInterval(()=>{ const el=document.getElementById('fb-nodes'); if(el&&Math.random()>0.85) el.textContent=parseInt(el.textContent||0)+1; },45000);
 
-/* ══ FLASH MODE — BLACK → B&W → GREEN SWEEP → WHITE SWEEP → NORMAL ══ */
+/* ══ ADMIN B&W MODE — frame-by-frame B&W, admin msgs green, 16s duration ══ */
 let adminFlashTimeout = null;
 let adminFlashActive = false;
 function triggerAdminFlash() {
   if(adminFlashActive) return;
   adminFlashActive = true;
   const body = document.body;
-  const prev = document.getElementById('admin-flash-overlay');
-  if(prev) prev.remove();
   if(adminFlashTimeout) clearTimeout(adminFlashTimeout);
-  /* Low tone for dramatic intro */
-  playTone(220, 0.1, 'sine', 0.4);
-  /* Build overlay with data lines */
-  const ov = document.createElement('div');
-  ov.id = 'admin-flash-overlay';
-  const liveNodes = networkNodes.length + 1;
-  const sessionH = Math.floor(S.sessionSecs/3600);
-  const sessionM = String(Math.floor((S.sessionSecs%3600)/60)).padStart(2,'0');
-  const lines = [
-    {text:'⚠ ADMIN BROADCAST', title:true},
-    {text:'CC: '+(S.ccName||'ADMIN')},
-    {text:'I-NET: '+S.ccID},
-    {text:'LOC: '+S.city+' · '+S.pincode},
-    {text:'NODES: '+liveNodes+' / 55 LIVE'},
-    {text:'SESSION: '+sessionH+':'+sessionM},
-    {text:'DATA: '+Math.round(S.dataUsed)+' MB'},
-    {text:'MESH: OPERATIONAL'},
-    {text:'₹505/MO · ACTIVE'},
-    {text:'■ COMMAND AUTHORITY ■', title:true},
-  ];
-  ov.innerHTML = lines.map((l,i)=>'<div class="afo-line'+(l.title?' title':'')+'" id="afl'+i+'">'+l.text+'</div>').join('');
-  body.appendChild(ov);
-  /* ─── PHASE 1: BLACK (0-2s) ─── */
-  body.classList.add('admin-flash');
-  ov.classList.add('phase-black');
-  setTimeout(()=>playTone(330,0.06,'sine',0.2),200);
-  /* ─── PHASE 2: B&W — reveal lines in white (2-6s) ─── */
-  setTimeout(()=>{
-    ov.classList.remove('phase-black'); ov.classList.add('phase-bw');
-    body.classList.add('admin-flash-bw');
-    lines.forEach((l,i)=>{
-      setTimeout(()=>{
-        const el=document.getElementById('afl'+i);
-        if(el){el.classList.add('visible'); el.style.color='#fff';}
-        playTone(400+i*30,0.03,'sine',0.06);
-      },i*350);
-    });
-  },2000);
-  /* ─── PHASE 3: GREEN SWEEP — lines turn green (6-10s) ─── */
-  setTimeout(()=>{
-    ov.classList.remove('phase-bw'); ov.classList.add('phase-green');
-    body.classList.remove('admin-flash-bw'); body.classList.add('admin-flash-green');
-    playTone(550,0.08,'sine',0.3);
-    lines.forEach((l,i)=>{
-      setTimeout(()=>{
-        const el=document.getElementById('afl'+i);
-        if(el){ el.style.color='var(--g)'; el.style.textShadow='0 0 10px rgba(57,255,20,0.6)'; }
-      },i*300);
-    });
-  },6000);
-  /* ─── PHASE 4: WHITE SWEEP — lines flash white (10-13s) ─── */
-  setTimeout(()=>{
-    ov.classList.remove('phase-green'); ov.classList.add('phase-white');
-    body.classList.remove('admin-flash-green'); body.classList.add('admin-flash-white');
-    playTone(880,0.06,'sine',0.25);
-    lines.forEach((l,i)=>{
-      setTimeout(()=>{
-        const el=document.getElementById('afl'+i);
-        if(el){ el.style.color='#fff'; el.style.textShadow='0 0 8px rgba(255,255,255,0.4)'; }
-      },i*200);
-    });
-  },10000);
-  /* ─── PHASE 5: RESTORE NORMAL (13-16s) ─── */
-  adminFlashTimeout = setTimeout(()=>{
-    body.classList.remove('admin-flash','admin-flash-bw','admin-flash-green','admin-flash-white');
-    ov.style.opacity='0'; ov.style.transition='opacity 1.5s ease';
-    setTimeout(()=>ov.remove(),1500);
+  /* Subtle tone — command authority */
+  playTone(330, 0.08, 'sine', 0.3);
+  /* Engage B&W mode — everything goes greyscale except admin messages + persona border */
+  body.classList.add('admin-bw');
+  /* After 16 seconds — restore to full color */
+  adminFlashTimeout = setTimeout(() => {
+    body.classList.remove('admin-bw');
     adminFlashActive = false;
+    /* Ensure persona border color is restored */
     const cs = document.getElementById('chat-section');
     if(cs && lastMsgColor) cs.style.borderTopColor = lastMsgColor;
-    playTone(440,0.05,'sine',0.15);
-  },13500);
+    playTone(440, 0.05, 'sine', 0.15);
+  }, 16000);
 }
 /* ══ GEO LOCK ══ */
 const GEO_CITIES = [
@@ -1872,20 +1818,34 @@ function activateGeoLock(cityData) {
   },120);
 }
 
-/* ══ MINI GRAPH ══ */
-function drawMiniGraph() {
+/* ══ MINI GRAPH — message-triggered EQ wave using node colors ══ */
+let eqBarHeights = new Array(55).fill(4);
+function drawMiniGraph(triggerHex) {
   const canvas=document.getElementById('graph-canvas'); if(!canvas) return;
-  const W=canvas.parentElement.clientWidth-24; const H=36; canvas.width=W; canvas.height=H;
+  const W=canvas.parentElement.clientWidth-16; const H=52; canvas.width=W; canvas.height=H;
   const ctx=canvas.getContext('2d'); ctx.clearRect(0,0,W,H);
-  const bars=55; const barW=Math.floor(W/bars)-1;
-  for(let i=0;i<bars;i++){ const node=networkNodes[i]; const h=6+Math.random()*(H-10); ctx.fillStyle=node.hex; ctx.globalAlpha=0.6+Math.random()*0.4; ctx.fillRect(i*(barW+1),0,barW,h); }
+  const bars=55; const barW=Math.max(2,Math.floor(W/bars)-1);
+  const msgColor=triggerHex||lastMsgColor||'#39FF14';
+  /* On new message: spike random bars, decay others */
+  for(let i=0;i<bars;i++){
+    if(triggerHex){ eqBarHeights[i]=Math.random()<0.5 ? (8+Math.random()*(H-12)) : Math.max(4,eqBarHeights[i]*0.6); }
+    else { eqBarHeights[i]=Math.max(4,eqBarHeights[i]*0.85); }
+    const node=networkNodes[i];
+    ctx.fillStyle=eqBarHeights[i]>H*0.4 ? msgColor : node.hex;
+    ctx.globalAlpha=0.5+Math.min(1,(eqBarHeights[i]/H))*0.5;
+    ctx.fillRect(i*(barW+1),0,barW,eqBarHeights[i]);
+  }
   ctx.globalAlpha=1;
+  /* Also trigger sweep bars if open */
+  if(sweepOpen && triggerHex) drawSweepBars();
 }
+/* Slow decay loop — keeps bars alive between messages */
+setInterval(()=>{ if(document.getElementById('graph-canvas')) drawMiniGraph(); },800);
 
 function showDashboardExtras() {
   const rb=document.getElementById('radio-icons-bar'); const mg=document.getElementById('mini-graphs');
   if(rb) rb.classList.add('show'); if(mg) mg.classList.add('show');
-  setTimeout(drawMiniGraph,100); setInterval(drawMiniGraph,6000);
+  setTimeout(()=>drawMiniGraph(),100);
   setInterval(()=>{ const rv=document.getElementById('rio-loc-val'); const rd=document.getElementById('rio-data-val'); if(rv) rv.textContent=S.city||'--'; if(rd) rd.textContent=Math.round(S.dataUsed)+'MB'; },3000);
   const rin=document.getElementById('rio-nodes-val'); if(rin) rin.textContent=networkNodes.length+1;
 }
