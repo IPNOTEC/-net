@@ -569,18 +569,10 @@ body::after {
 .tape-24hr { font-size: 0.42rem; color: #2a5a2a; letter-spacing: 0.1em; }
 .tape-dots-strip { display: flex; align-items: center; gap: 5px; overflow-x: auto; padding-bottom: 2px; }
 .tape-dots-strip::-webkit-scrollbar { height: 0; }
-.tape-dot-item { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; cursor: pointer; transition: transform 0.15s, box-shadow 0.15s; position: relative; }
+.tape-dot-item { width: 8px; height: 8px; border-radius: 0; flex-shrink: 0; cursor: pointer; transition: transform 0.15s, box-shadow 0.15s; position: relative; }
 .tape-dot-item:hover { transform: scale(1.4); }
-.tape-dot-item[data-age="1"]  { background: #fff; box-shadow: 0 0 4px rgba(255,255,255,0.8); }
-.tape-dot-item[data-age="2"]  { background: #e0e0e0; }
-.tape-dot-item[data-age="3"]  { background: #c0c0c0; }
-.tape-dot-item[data-age="10"] { background: #909090; }
-.tape-dot-item[data-age="20"] { background: #707070; }
-.tape-dot-item[data-age="50"] { background: #444; }
-.tape-dot-item[data-age="80"] { background: #7a3030; }
-.tape-dot-item[data-age="96"] { background: #882020; opacity: 0.7; }
-.tape-dot-item[data-age="99"] { background: #4a1010; opacity: 0.6; }
-.tape-dot-item[data-age="100"]{ background: #1a0606; border: 1px solid #2a1010; opacity: 0.5; }
+.tape-dot-item.tape-first { background: var(--r); animation: tapeBlink 2s ease-in-out infinite; }
+@keyframes tapeBlink { 0%,100%{background:var(--r);box-shadow:0 0 4px var(--r);} 50%{background:#0a0000;box-shadow:none;} }
 .radar-section { position: relative; flex-shrink: 0; background: #000; overflow: hidden; }
 .radar-canvas { display: block; width: 100%; }
 .radar-you-label { position: absolute; top: 10px; left: 12px; font-size: 0.52rem; letter-spacing: 0.1em; color: var(--g); border: 1px solid #0d2a0d; padding: 3px 8px; background: rgba(0,0,0,0.8); pointer-events: none; text-shadow: 0 0 6px var(--g); }
@@ -611,7 +603,8 @@ body::after {
 .chat-inp::placeholder { color: #1a4a1a; font-size: 0.72rem; }
 .chat-send { padding: 14px 18px; background: transparent; border: none; border-left: 1px solid #0a1a0a; color: var(--g); font-family: var(--head); font-size: 0.65rem; letter-spacing: 0.14em; cursor: pointer; transition: all 0.15s; text-transform: uppercase; flex-shrink: 0; }
 .chat-send:hover { background: rgba(57,255,20,0.06); }
-.sweep-bar { padding: 8px 16px; border-top: 1px solid #0a1a0a; display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; background: #000; }
+.sweep-bar { padding: 4px 16px; border-top: 1px solid #0a1a0a; display: flex; align-items: center; justify-content: center; flex-shrink: 0; background: #000; }
+.sweep-bar-brand { font-family: var(--head); font-size: 0.52rem; font-weight: 900; letter-spacing: 0.28em; color: #FF6200; text-shadow: 0 0 16px rgba(255,98,0,0.6), 0 0 32px rgba(255,98,0,0.3); }
 .sweep-label { font-size: 0.46rem; letter-spacing: 0.18em; color: #3a6a3a; }
 .btn-sweep { padding: 7px 14px; background: transparent; border: 1px solid #1a3a1a; color: #4a8a4a; font-family: var(--head); font-size: 0.5rem; font-weight: 700; letter-spacing: 0.14em; cursor: pointer; transition: all 0.2s; text-transform: uppercase; }
 .btn-sweep:hover { border-color: var(--g); color: var(--g); }
@@ -709,6 +702,10 @@ body::after {
 /* PATCH: Mobile sweep - full screen on portrait/small screens */
 @media (max-width: 600px), (orientation: portrait) {
   .sweep-inner-16-9 { width: 100vw !important; height: 100vh !important; aspect-ratio: unset !important; border: none !important; }
+  .sweep-grid { flex-direction: column !important; }
+  .sweep-left { flex: 1.2 !important; border-right: none !important; border-bottom: 1px solid #0a1a0a; }
+  .sweep-right { flex: 0.8 !important; }
+  .sweep-bars-section { height: 56px !important; min-height: 56px !important; }
 }
 .sweep-topbar { height: 48px; min-height:48px; background: #000; border-bottom: 1px solid #1a1a1a; display: flex; align-items: center; justify-content: space-between; padding: 0 14px; flex-shrink: 0; }
 .sweep-title { font-family: var(--head); font-size: 0.68rem; font-weight: 900; letter-spacing: 0.18em; color: var(--b); text-shadow: 0 0 10px var(--b); }
@@ -744,45 +741,33 @@ body::after {
 .sweep-threshold-inner.alert-red { color: var(--r); border-left: 3px solid var(--r); background: rgba(255,34,68,0.04); }
 .btn-kick-oldest { margin-top: 4px; padding: 5px 12px; background: rgba(255,34,68,0.1); border: 1px solid var(--r); color: var(--r); font-family: var(--head); font-size: 0.44rem; font-weight: 700; letter-spacing: 0.12em; cursor: pointer; transition: all 0.2s; }
 .btn-kick-oldest:hover { background: var(--r); color: #000; }
-/* PATCH: Admin flash - single flash + 16s sequential transition */
-body.admin-flash .shell { filter: brightness(1.2); transition: filter 0.8s ease; }
-body.admin-flash .status-bar { background: var(--g) !important; transition: background 0.4s; }
-body.admin-flash .sb-brand { color: #000 !important; text-shadow: none !important; }
+/* FLASH MODE — cinematic BLACK→B&W→GREEN→WHITE→NORMAL */
+body.admin-flash .shell { transition: filter 1.2s ease; }
+body.admin-flash-bw .shell { filter: grayscale(1) brightness(0.8) !important; }
+body.admin-flash-green .shell { filter: grayscale(0) brightness(1.1) saturate(2) !important; }
+body.admin-flash-white .shell { filter: brightness(1.6) contrast(1.2) !important; }
+body.admin-flash-bw .status-bar { background: #222 !important; transition: background 0.8s; }
+body.admin-flash-green .status-bar { background: var(--g) !important; transition: background 0.8s; }
+body.admin-flash-green .sb-brand { color: #000 !important; text-shadow: none !important; }
+body.admin-flash-white .status-bar { background: #fff !important; transition: background 0.8s; }
+body.admin-flash-white .sb-brand { color: #000 !important; text-shadow: none !important; }
 #admin-flash-overlay {
   position: fixed; inset: 0; z-index: 9995; display: flex;
   flex-direction: column; align-items: center; justify-content: center;
-  pointer-events: none; background: transparent;
+  pointer-events: none; transition: background 1.5s ease;
 }
-#admin-flash-overlay .afo-flash {
-  position: absolute; inset: 0;
-  background: rgba(57,255,20,0.85);
-  animation: singleFlash 0.6s ease-out forwards;
+#admin-flash-overlay.phase-black { background: rgba(0,0,0,0.95); }
+#admin-flash-overlay.phase-bw { background: rgba(0,0,0,0.7); }
+#admin-flash-overlay.phase-green { background: rgba(57,255,20,0.06); }
+#admin-flash-overlay.phase-white { background: rgba(255,255,255,0.04); }
+#admin-flash-overlay .afo-line {
+  font-family: var(--font); font-size: 0.5rem; letter-spacing: 0.14em;
+  text-align: center; margin: 3px 0;
+  opacity: 0; transform: translateY(6px);
+  transition: opacity 0.5s ease, transform 0.5s ease, color 1.2s ease;
 }
-@keyframes singleFlash {
-  0%   { opacity: 1; }
-  30%  { opacity: 0.6; }
-  100% { opacity: 0; }
-}
-#admin-flash-overlay .afo-section {
-  position: relative; z-index: 2;
-  opacity: 0; transform: translateY(8px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
-  text-align: center; margin: 4px 0;
-}
-#admin-flash-overlay .afo-section.visible {
-  opacity: 1; transform: translateY(0);
-}
-#admin-flash-overlay .afo-title {
-  font-family: var(--head); font-size: 1rem; font-weight: 900;
-  letter-spacing: 0.22em; color: var(--g);
-  text-shadow: 0 0 30px var(--g);
-}
-#admin-flash-overlay .afo-data {
-  font-family: var(--font); font-size: 0.52rem;
-  letter-spacing: 0.14em; color: #4a8a4a;
-  margin: 2px 0;
-}
-#admin-flash-overlay .afo-data.bright { color: var(--g); text-shadow: 0 0 8px var(--g); }
+#admin-flash-overlay .afo-line.visible { opacity: 1; transform: translateY(0); }
+#admin-flash-overlay .afo-line.title { font-family: var(--head); font-size: 0.82rem; font-weight: 900; letter-spacing: 0.22em; }
 .geo-lock-box { border: 1px solid rgba(57,255,20,0.3); background: rgba(57,255,20,0.02); padding: 10px 12px; margin-bottom: 12px; display: none; }
 .geo-lock-box.show { display: block; }
 .geo-lock-title { font-size: 0.44rem; letter-spacing: 0.22em; color: #4a7a4a; margin-bottom: 8px; }
@@ -1191,11 +1176,11 @@ body.admin-flash .sb-brand { color: #000 !important; text-shadow: none !importan
     <div class="rio"><div class="rio-icon">↑↓</div><div class="rio-val" id="rio-data-val">0MB</div><div class="rio-lbl">DATA</div></div>
     <div class="rio"><div class="rio-icon" style="color:var(--g);">●</div><div class="rio-val" style="color:var(--g);">LIVE</div><div class="rio-lbl">STATUS</div></div>
   </div>
-  <div class="mini-graphs" id="mini-graphs"><div class="mg-label">24H NODE ACTIVITY · RECON 505 MESH</div><canvas id="graph-canvas"></canvas></div>
   <div class="tape-bar">
     <div class="tape-top-row"><div class="tape-rec"><div class="tape-rec-dot"></div>REC · 24HR TAPE BACKUP</div><div class="tape-24hr">CLICK DOT TO REPLAY</div></div>
     <div class="tape-dots-strip" id="tape-dots-strip"></div>
   </div>
+  <div class="mini-graphs" id="mini-graphs"><div class="mg-label">24H NODE ACTIVITY · RECON 505 MESH</div><canvas id="graph-canvas"></canvas></div>
   <div class="radar-section" id="radar-section">
     <canvas class="radar-canvas" id="radar-canvas"></canvas>
     <div class="radar-you-label" id="radar-you-label">YOU ■ I-NET ADMIN</div>
@@ -1211,11 +1196,7 @@ body.admin-flash .sb-brand { color: #000 !important; text-shadow: none !importan
     </div>
   </div>
   <div class="sweep-bar">
-    <div class="sweep-label">■ RECON SWEEP · SCAN NODES</div>
-    <div style="display:flex;gap:6px;">
-      <button class="btn-169" onclick="openSweep()">▣ 16:9</button>
-      <button class="btn-sweep" onclick="openSweep()">SWEEP →</button>
-    </div>
+    <div class="sweep-bar-brand">IPNOTEC CORP</div>
   </div>
 </div>
 <div class="tape-detail-overlay" id="tape-detail-overlay">
@@ -1238,7 +1219,7 @@ body.admin-flash .sb-brand { color: #000 !important; text-shadow: none !importan
     <div class="exp"><div class="exp-hdr" onclick="expToggle(this)"><div class="exp-hdr-left"><div class="exp-arrow">▶</div><div class="exp-title"><span class="exp-title-num">■</span> LIVE SESSIONS</div></div><div class="exp-right"><div class="exp-meta" id="exp-live-meta">0 ACTIVE</div><div class="exp-tag live">LIVE</div></div></div><div class="exp-body"><div class="exp-inner"><table class="a-tbl"><thead><tr><th>NODE</th><th>PHONE</th><th>CONN</th><th>REMAINING</th><th>DATA</th><th>USE%</th><th></th></tr></thead><tbody id="adm-sessions-body"></tbody></table></div></div></div>
     <div class="exp"><div class="exp-hdr" onclick="expToggle(this)"><div class="exp-hdr-left"><div class="exp-arrow">▶</div><div class="exp-title"><span class="exp-title-num">■</span> CHAT MONITOR</div></div><div class="exp-right"><div class="exp-meta" id="exp-chat-meta">0 MESSAGES</div></div></div><div class="exp-body"><div class="exp-inner"><div class="chat-mon" id="adm-chat-log"></div><button class="btn-cta secondary" style="margin-top:8px;padding:8px;font-size:0.5rem;" onclick="clearAdminChat()">CLEAR LOG</button></div></div></div>
     <div class="exp"><div class="exp-hdr" onclick="expToggle(this)"><div class="exp-hdr-left"><div class="exp-arrow">▶</div><div class="exp-title"><span class="exp-title-num">■</span> DATA USAGE</div></div><div class="exp-right"><div class="exp-meta" id="exp-data-meta">0 MB</div></div></div><div class="exp-body"><div class="exp-inner" id="adm-usage-bars"></div></div></div>
-    <div class="exp"><div class="exp-hdr" onclick="expToggle(this)"><div class="exp-hdr-left"><div class="exp-arrow">▶</div><div class="exp-title"><span class="exp-title-num">■</span> TAPE ARCHIVE</div></div><div class="exp-right"><div class="exp-meta" id="exp-archive-meta">100 DAYS</div></div></div><div class="exp-body"><div class="exp-inner"><table class="a-tbl arc-tbl"><thead><tr><th>NODE</th><th>PHONE</th><th>CONN</th><th>DUR</th><th>DATA</th><th>MSGS</th><th>END</th></tr></thead><tbody id="adm-archive-body"></tbody></table></div></div></div>
+    <div class="exp"><div class="exp-hdr" onclick="expToggle(this)"><div class="exp-hdr-left"><div class="exp-arrow">▶</div><div class="exp-title"><span class="exp-title-num">■</span> TAPE ARCHIVE</div></div><div class="exp-right"><div class="exp-meta" id="exp-archive-meta">101 DAYS</div></div></div><div class="exp-body"><div class="exp-inner"><div id="adm-archive-rows" style="max-height:300px;overflow-y:auto;margin-bottom:10px;"></div><div style="display:flex;gap:8px;margin-top:8px;"><button class="btn-cta secondary" style="flex:1;padding:8px;font-size:0.46rem;" onclick="exportArchive('pdf')">EXPORT PDF ↓</button><button class="btn-cta secondary" style="flex:1;padding:8px;font-size:0.46rem;" onclick="exportArchive('xlsx')">EXPORT EXCEL ↓</button></div></div></div></div>
   </div>
 </div>
 <div class="pin-overlay" id="pin-overlay">
@@ -1524,8 +1505,10 @@ function setupCCDashboard() {
 }
 /* TAPE DOTS */
 const TAPE_DAYS_CONFIG=[{age:'1',label:'TODAY 14:00',msgs:18},{age:'1',label:'TODAY 12:00',msgs:12},{age:'1',label:'TODAY 10:00',msgs:8},{age:'2',label:'YESTERDAY',msgs:24},{age:'3',label:'2 DAYS AGO',msgs:20},{age:'10',label:'DAY 10',msgs:31},{age:'20',label:'DAY 20',msgs:45},{age:'50',label:'DAY 50',msgs:67},{age:'80',label:'DAY 80',msgs:89},{age:'96',label:'DAY 96',msgs:102},{age:'99',label:'DAY 99',msgs:97},{age:'100',label:'DAY 100',msgs:84}];
-function generateTapeDots() { const strip=document.getElementById('tape-dots-strip'); strip.innerHTML=''; TAPE_DAYS_CONFIG.forEach((td,idx)=>{ const dot=document.createElement('div'); dot.className='tape-dot-item'; dot.setAttribute('data-age',td.age); dot.setAttribute('title',td.label); dot.onclick=()=>openTapeDetail(idx,td); strip.appendChild(dot); }); }
-function openTapeDetail(idx,td) { playClick(); document.getElementById('td-label').textContent='TAPE · '+td.label; document.getElementById('td-meta').textContent=td.msgs+' MESSAGES · DAY '+td.age+' BACKUP · ENCRYPTED READ-ONLY'; const content=document.getElementById('td-content'); const msgs=generateTapeMessages(td.msgs,td.label); content.innerHTML=msgs.map(m=>'<div class="td-msg"><span class="td-msg-time">['+m.t+']</span><span class="td-msg-who" style="color:'+m.hex+';">'+m.name+'</span><span class="td-msg-sep">>>></span><span style="color:#666;">'+m.text+'</span></div>').join(''); document.getElementById('tape-detail-overlay').classList.add('open'); }
+function generateTapeDots() { const strip=document.getElementById('tape-dots-strip'); strip.innerHTML=''; TAPE_DAYS_CONFIG.forEach((td,idx)=>{ const dot=document.createElement('div'); dot.className='tape-dot-item'; if(idx===0){ dot.classList.add('tape-first'); } else { const t=idx/(TAPE_DAYS_CONFIG.length-1); const grey=Math.round(140*(1-t)+10*t); dot.style.background='rgb('+grey+','+grey+','+grey+')'; } dot.setAttribute('title',td.label); dot.onclick=()=>openTapeDetail(idx,td); strip.appendChild(dot); }); }
+function openTapeDetail(idx,td) { playClick(); document.getElementById('td-label').textContent='TAPE · '+td.label; document.getElementById('td-meta').textContent=td.msgs+' MESSAGES · DAY '+td.age+' BACKUP · ENCRYPTED READ-ONLY'; const content=document.getElementById('td-content'); const msgs=generateTapeMessages(td.msgs,td.label);
+  const summaryHTML='<div style="border:1px solid rgba(57,255,20,0.25);margin-bottom:12px;"><div onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display===\'none\'?\'block\':\'none\';this.querySelector(\'.td-arrow\').textContent=this.nextElementSibling.style.display===\'none\'?\'▶\':\'▼\';" style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;cursor:pointer;background:rgba(57,255,20,0.03);"><div style="display:flex;align-items:center;gap:8px;"><span class="td-arrow" style="font-size:0.5rem;color:var(--g);">▶</span><span style="font-family:var(--head);font-size:0.58rem;font-weight:700;letter-spacing:0.16em;color:var(--g);text-shadow:0 0 8px var(--g);">IPNOTEC SUMMARY</span></div><span style="font-size:0.42rem;color:#4a7a4a;letter-spacing:0.1em;">'+td.msgs+' MSGS · '+td.label+'</span></div><div style="display:none;padding:10px 14px;border-top:1px solid #0a1a0a;font-size:0.5rem;color:#5a8a5a;letter-spacing:0.06em;line-height:1.8;">■ TOTAL MESSAGES: '+td.msgs+'<br>■ ACTIVE NODES: '+Math.min(55,Math.floor(td.msgs*0.7))+'<br>■ PEAK HOUR: '+String(12+Math.floor(Math.random()*6)).padStart(2,'0')+':00<br>■ DATA TRANSFERRED: '+Math.floor(td.msgs*2.4)+' MB<br>■ SESSION DURATION: 24:00:00<br>■ ENCRYPTION: AES-256 · VERIFIED</div></div>';
+  content.innerHTML=summaryHTML+msgs.map(m=>'<div class="td-msg"><span class="td-msg-time">['+m.t+']</span><span class="td-msg-who" style="color:'+m.hex+';">'+m.name+'</span><span class="td-msg-sep">>>></span><span style="color:#666;">'+m.text+'</span></div>').join(''); document.getElementById('tape-detail-overlay').classList.add('open'); }
 const TAPE_MSG_TEXTS=['anyone on the 2nd floor?','building in public today','great energy here','need a charger stat','anyone got coffee recommendations?','just closed a deal','heads down no calls','going for a walk brb','who wants to cowork?','solid startup vibes today','connection dropping anyone else?','team sync in 10','great session today','anyone in fintech here?','pushing a build live','bg music is fire'];
 function generateTapeMessages(count,label) { const result=[]; const nodes=[...networkNodes,{name:S.ccName||'ADMIN',hex:'#39FF14'}]; for(let i=0;i<Math.min(count,20);i++){ const n=nodes[i%nodes.length]; const h=String(9+Math.floor(i*14/count)).padStart(2,'0'); const m=String(Math.floor(Math.random()*60)).padStart(2,'0'); result.push({t:h+':'+m,name:n.name,hex:n.hex,text:TAPE_MSG_TEXTS[i%TAPE_MSG_TEXTS.length]}); } return result; }
 function closeTapeDetail() { document.getElementById('tape-detail-overlay').classList.remove('open'); }
@@ -1679,7 +1662,7 @@ function openPinOverlay() { pinEntry=''; renderPinDots(); document.getElementByI
 function closePinOverlay() { document.getElementById('pin-overlay').classList.remove('open'); }
 function renderPinDots() { for(let i=0;i<4;i++) document.getElementById('pd'+i).classList.toggle('filled', i<pinEntry.length); }
 function pinKey(k) { if(k==='del'){pinEntry=pinEntry.slice(0,-1);renderPinDots();return;} if(k==='ok'){checkPin();return;} if(pinEntry.length>=4) return; pinEntry+=k; playTone(600+pinEntry.length*80,0.08,'square',0.06); renderPinDots(); if(pinEntry.length===4) setTimeout(checkPin,200); }
-function checkPin() { if(pinEntry===ADMIN_PIN){ closePinOverlay(); playAdminOpen(); renderAdminSessions(); renderAdminUsage(); document.getElementById('admin-overlay').classList.add('open'); } else { document.getElementById('pin-err').textContent='✗ INCORRECT PIN'; playTone(200,0.2,'sawtooth',0.08); pinEntry=''; renderPinDots(); } }
+function checkPin() { if(pinEntry===ADMIN_PIN){ closePinOverlay(); playAdminOpen(); renderAdminSessions(); renderAdminUsage(); renderArchiveRows(); document.getElementById('admin-overlay').classList.add('open'); } else { document.getElementById('pin-err').textContent='✗ INCORRECT PIN'; playTone(200,0.2,'sawtooth',0.08); pinEntry=''; renderPinDots(); } }
 function closeAdmin() { document.getElementById('admin-overlay').classList.remove('open'); }
 function expToggle(hdr) { hdr.classList.toggle('open'); hdr.nextElementSibling.classList.toggle('open'); }
 
@@ -1706,6 +1689,37 @@ function clearAdminChat() {
   allChatMessages.length=0;
   document.getElementById('exp-chat-meta').textContent='0 MESSAGES';
   playTone(300,0.08,'sawtooth',0.12);
+}
+/* TAPE ARCHIVE — 101 rows, red-blink to grey-to-black, radio select */
+function renderArchiveRows() {
+  const wrap=document.getElementById('adm-archive-rows'); if(!wrap) return;
+  let html='';
+  for(let i=0;i<101;i++){
+    const t=i/100;
+    let rowColor,rowBg='transparent',blinkClass='';
+    if(i===0){ rowColor='var(--r)'; blinkClass=' style="animation:tapeBlink 2s ease-in-out infinite;"'; }
+    else { const grey=Math.round(160*(1-t)+8*t); rowColor='rgb('+grey+','+grey+','+grey+')'; }
+    const dayLabel=i===0?'TODAY':'DAY '+(i);
+    const msgs=Math.max(2,Math.floor(120-i*1.1+Math.random()*10));
+    const data=Math.floor(40+Math.random()*280);
+    const dur=String(Math.floor(18+Math.random()*6)).padStart(2,'0')+':'+String(Math.floor(Math.random()*60)).padStart(2,'0');
+    html+='<div style="display:flex;align-items:center;gap:8px;padding:5px 4px;border-bottom:1px solid #060606;font-size:0.48rem;color:'+rowColor+';"'+blinkClass+'>';
+    html+='<input type="checkbox" class="arc-chk" data-idx="'+i+'" style="accent-color:var(--g);width:12px;height:12px;flex-shrink:0;">';
+    html+='<span style="width:8px;height:8px;background:'+rowColor+';flex-shrink:0;'+(i===0?'box-shadow:0 0 4px var(--r);':'')+'"></span>';
+    html+='<span style="flex:1;letter-spacing:0.08em;">'+dayLabel+'</span>';
+    html+='<span style="width:40px;text-align:right;">'+msgs+'</span>';
+    html+='<span style="width:50px;text-align:right;">'+data+' MB</span>';
+    html+='<span style="width:45px;text-align:right;">'+dur+'</span>';
+    html+='</div>';
+  }
+  wrap.innerHTML='<div style="display:flex;gap:8px;padding:4px;font-size:0.38rem;letter-spacing:0.14em;color:#555;border-bottom:1px solid #111;margin-bottom:4px;"><span style="width:20px;"></span><span style="width:8px;"></span><span style="flex:1;">DAY</span><span style="width:40px;text-align:right;">MSGS</span><span style="width:50px;text-align:right;">DATA</span><span style="width:45px;text-align:right;">DUR</span></div>'+html;
+}
+function exportArchive(fmt) {
+  const checked=document.querySelectorAll('.arc-chk:checked');
+  if(checked.length===0){ alert('SELECT AT LEAST ONE TAPE ENTRY TO EXPORT'); return; }
+  const count=checked.length;
+  playSuccess();
+  alert('✓ EXPORT INITIATED\n\n'+count+' tape entries queued for '+fmt.toUpperCase()+' export.\n\nFormat: '+fmt.toUpperCase()+'\nEntries: '+count+'\nStatus: PROCESSING\n\n[EMULATION — In production, file download triggers here]');
 }
 /* ══ SWEEP MODULE ══ */
 let sweepRadarAF=null; let sweepOpen=false; let sweepLiveNodes=[]; let sweepChatMsgs=[]; const SWEEP_MAX=55;
@@ -1757,69 +1771,88 @@ function startSweepEmulation() { if(sweepEmulInterval) clearInterval(sweepEmulIn
 startSweepEmulation();
 setInterval(()=>{ const el=document.getElementById('fb-nodes'); if(el&&Math.random()>0.85) el.textContent=parseInt(el.textContent||0)+1; },45000);
 
-/* ══ PATCHED: ADMIN FLASH — single flash + 16s sequential data sections ══ */
+/* ══ FLASH MODE — BLACK → B&W → GREEN SWEEP → WHITE SWEEP → NORMAL ══ */
 let adminFlashTimeout = null;
 let adminFlashActive = false;
 function triggerAdminFlash() {
-  if(adminFlashActive) return; /* prevent overlapping */
+  if(adminFlashActive) return;
   adminFlashActive = true;
   const body = document.body;
-  /* Remove previous */
   const prev = document.getElementById('admin-flash-overlay');
   if(prev) prev.remove();
   if(adminFlashTimeout) clearTimeout(adminFlashTimeout);
-  /* Single flash sound */
-  playTone(900, 0.12, 'square', 0.15);
-  /* Create overlay */
+  /* Low tone for dramatic intro */
+  playTone(220, 0.1, 'sine', 0.4);
+  /* Build overlay with data lines */
   const ov = document.createElement('div');
   ov.id = 'admin-flash-overlay';
-  /* Data sections to reveal sequentially */
   const liveNodes = networkNodes.length + 1;
   const sessionH = Math.floor(S.sessionSecs/3600);
   const sessionM = String(Math.floor((S.sessionSecs%3600)/60)).padStart(2,'0');
-  const sections = [
-    {cls:'afo-title', text:'⚠ ADMIN BROADCAST ⚠'},
-    {cls:'afo-data bright', text:'COMMAND CENTER: '+(S.ccName||'ADMIN')},
-    {cls:'afo-data', text:'I-NET ID: '+S.ccID},
-    {cls:'afo-data', text:'LOCATION: '+S.city+' · '+S.pincode},
-    {cls:'afo-data bright', text:'LIVE NODES: '+liveNodes+' / 55'},
-    {cls:'afo-data', text:'SESSION: '+sessionH+':'+sessionM+' REMAINING'},
-    {cls:'afo-data', text:'DATA: '+Math.round(S.dataUsed)+' MB USED'},
-    {cls:'afo-data bright', text:'MESH STATUS: OPERATIONAL'},
-    {cls:'afo-data', text:'SUBSCRIPTION: ₹505/MO · ACTIVE'},
-    {cls:'afo-data', text:'BANDWIDTH: 100 MBPS'},
-    {cls:'afo-data bright', text:'MESSAGES: '+allChatMessages.length+' TODAY'},
-    {cls:'afo-title', text:'■ ADMIN AUTHORITY CONFIRMED ■'},
+  const lines = [
+    {text:'⚠ ADMIN BROADCAST', title:true},
+    {text:'CC: '+(S.ccName||'ADMIN')},
+    {text:'I-NET: '+S.ccID},
+    {text:'LOC: '+S.city+' · '+S.pincode},
+    {text:'NODES: '+liveNodes+' / 55 LIVE'},
+    {text:'SESSION: '+sessionH+':'+sessionM},
+    {text:'DATA: '+Math.round(S.dataUsed)+' MB'},
+    {text:'MESH: OPERATIONAL'},
+    {text:'₹505/MO · ACTIVE'},
+    {text:'■ COMMAND AUTHORITY ■', title:true},
   ];
-  let html = '<div class="afo-flash"></div>';
-  sections.forEach((s,i) => {
-    html += '<div class="afo-section" id="afo-s'+i+'" style="transition-delay:'+(0.3+i*1.1)+'s;"><div class="'+s.cls+'">'+s.text+'</div></div>';
-  });
-  ov.innerHTML = html;
+  ov.innerHTML = lines.map((l,i)=>'<div class="afo-line'+(l.title?' title':'')+'" id="afl'+i+'">'+l.text+'</div>').join('');
   body.appendChild(ov);
-  /* Activate body flash class */
+  /* ─── PHASE 1: BLACK (0-2s) ─── */
   body.classList.add('admin-flash');
-  /* Reveal sections one by one */
-  requestAnimationFrame(() => {
-    sections.forEach((s,i) => {
-      setTimeout(() => {
-        const el = document.getElementById('afo-s'+i);
-        if(el) el.classList.add('visible');
-        /* tick sound for each section */
-        playTone(500+i*40, 0.04, 'sine', 0.08);
-      }, 300 + i * 1100);
+  ov.classList.add('phase-black');
+  setTimeout(()=>playTone(330,0.06,'sine',0.2),200);
+  /* ─── PHASE 2: B&W — reveal lines in white (2-6s) ─── */
+  setTimeout(()=>{
+    ov.classList.remove('phase-black'); ov.classList.add('phase-bw');
+    body.classList.add('admin-flash-bw');
+    lines.forEach((l,i)=>{
+      setTimeout(()=>{
+        const el=document.getElementById('afl'+i);
+        if(el){el.classList.add('visible'); el.style.color='#fff';}
+        playTone(400+i*30,0.03,'sine',0.06);
+      },i*350);
     });
-  });
-  /* Clean up after 16 seconds — restore to normal */
-  adminFlashTimeout = setTimeout(() => {
-    body.classList.remove('admin-flash');
-    const el = document.getElementById('admin-flash-overlay');
-    if(el) { el.style.opacity='0'; el.style.transition='opacity 1s ease'; setTimeout(()=>el.remove(),1000); }
+  },2000);
+  /* ─── PHASE 3: GREEN SWEEP — lines turn green (6-10s) ─── */
+  setTimeout(()=>{
+    ov.classList.remove('phase-bw'); ov.classList.add('phase-green');
+    body.classList.remove('admin-flash-bw'); body.classList.add('admin-flash-green');
+    playTone(550,0.08,'sine',0.3);
+    lines.forEach((l,i)=>{
+      setTimeout(()=>{
+        const el=document.getElementById('afl'+i);
+        if(el){ el.style.color='var(--g)'; el.style.textShadow='0 0 10px rgba(57,255,20,0.6)'; }
+      },i*300);
+    });
+  },6000);
+  /* ─── PHASE 4: WHITE SWEEP — lines flash white (10-13s) ─── */
+  setTimeout(()=>{
+    ov.classList.remove('phase-green'); ov.classList.add('phase-white');
+    body.classList.remove('admin-flash-green'); body.classList.add('admin-flash-white');
+    playTone(880,0.06,'sine',0.25);
+    lines.forEach((l,i)=>{
+      setTimeout(()=>{
+        const el=document.getElementById('afl'+i);
+        if(el){ el.style.color='#fff'; el.style.textShadow='0 0 8px rgba(255,255,255,0.4)'; }
+      },i*200);
+    });
+  },10000);
+  /* ─── PHASE 5: RESTORE NORMAL (13-16s) ─── */
+  adminFlashTimeout = setTimeout(()=>{
+    body.classList.remove('admin-flash','admin-flash-bw','admin-flash-green','admin-flash-white');
+    ov.style.opacity='0'; ov.style.transition='opacity 1.5s ease';
+    setTimeout(()=>ov.remove(),1500);
     adminFlashActive = false;
-    /* PATCH: Restore chat border to last persona color after flash */
     const cs = document.getElementById('chat-section');
     if(cs && lastMsgColor) cs.style.borderTopColor = lastMsgColor;
-  }, 16000);
+    playTone(440,0.05,'sine',0.15);
+  },13500);
 }
 /* ══ GEO LOCK ══ */
 const GEO_CITIES = [
@@ -1845,7 +1878,7 @@ function drawMiniGraph() {
   const W=canvas.parentElement.clientWidth-24; const H=36; canvas.width=W; canvas.height=H;
   const ctx=canvas.getContext('2d'); ctx.clearRect(0,0,W,H);
   const bars=55; const barW=Math.floor(W/bars)-1;
-  for(let i=0;i<bars;i++){ const node=networkNodes[i]; const h=6+Math.random()*(H-10); ctx.fillStyle=node.hex; ctx.globalAlpha=0.6+Math.random()*0.4; ctx.fillRect(i*(barW+1),H-h,barW,h); }
+  for(let i=0;i<bars;i++){ const node=networkNodes[i]; const h=6+Math.random()*(H-10); ctx.fillStyle=node.hex; ctx.globalAlpha=0.6+Math.random()*0.4; ctx.fillRect(i*(barW+1),0,barW,h); }
   ctx.globalAlpha=1;
 }
 
