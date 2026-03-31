@@ -34,9 +34,7 @@
   --head:  'Orbitron', sans-serif;
 }
 *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
-html { font-size: 16px; }
-@media(max-width:380px){ html{font-size:14px;} }
-@media(min-width:480px){ html{font-size:18px;} }
+html { font-size: 22px; }
 html, body { width:100%; height:100%; background:#000; overflow:hidden; }
 body {
   font-family: var(--font);
@@ -1145,20 +1143,20 @@ body::after {
   width: 10px; height: 10px; border-radius: 50%;
   flex-shrink: 0; cursor: pointer;
   transition: transform 0.15s, box-shadow 0.15s;
-  position: relative; overflow: hidden; background: #fff;
+  position: relative;
 }
 .tape-dot-item:hover { transform: scale(1.4); }
-/* DESCENDING MOON PHASES: day1=full moon, day10=waning gibbous, older=crescent→sliver→new moon */
-.tape-dot-item[data-age="1"]  { background: #fff; box-shadow: 0 0 6px rgba(255,255,255,0.9); }
-.tape-dot-item[data-age="2"]  { background: #fff; box-shadow: 0 0 3px rgba(255,255,255,0.5); clip-path: polygon(0 0, 88% 0, 88% 100%, 0 100%); }
-.tape-dot-item[data-age="3"]  { background: #ddd; clip-path: polygon(0 0, 78% 0, 78% 100%, 0 100%); }
-.tape-dot-item[data-age="10"] { background: #bbb; clip-path: polygon(0 0, 62% 0, 62% 100%, 0 100%); }
-.tape-dot-item[data-age="20"] { background: #999; clip-path: polygon(0 0, 48% 0, 48% 100%, 0 100%); }
-.tape-dot-item[data-age="50"] { background: #666; clip-path: polygon(0 0, 34% 0, 34% 100%, 0 100%); }
-.tape-dot-item[data-age="80"] { background: #7a3030; clip-path: polygon(0 0, 22% 0, 22% 100%, 0 100%); }
-.tape-dot-item[data-age="96"] { background: #882020; clip-path: polygon(0 0, 12% 0, 12% 100%, 0 100%); opacity: 0.8; }
-.tape-dot-item[data-age="99"] { background: #4a1010; clip-path: polygon(0 0, 6% 0, 6% 100%, 0 100%); opacity: 0.7; }
-.tape-dot-item[data-age="100"]{ background: #1a0606; border: 1px solid #2a1010; clip-path: polygon(0 0, 3% 0, 3% 100%, 0 100%); opacity: 0.5; }
+/* Colors by age: day 1=white, day~20=grey, day~50=mid-grey, day~96=light-red, day~99=deep-red, day~100=near-black */
+.tape-dot-item[data-age="1"]  { background: #fff; box-shadow: 0 0 4px rgba(255,255,255,0.8); }
+.tape-dot-item[data-age="2"]  { background: #e0e0e0; }
+.tape-dot-item[data-age="3"]  { background: #c0c0c0; }
+.tape-dot-item[data-age="10"] { background: #909090; }
+.tape-dot-item[data-age="20"] { background: #707070; }
+.tape-dot-item[data-age="50"] { background: #444; }
+.tape-dot-item[data-age="80"] { background: #7a3030; }
+.tape-dot-item[data-age="96"] { background: #882020; opacity: 0.7; }
+.tape-dot-item[data-age="99"] { background: #4a1010; opacity: 0.6; }
+.tape-dot-item[data-age="100"]{ background: #1a0606; border: 1px solid #2a1010; opacity: 0.5; }
 
 /* RADAR MAP */
 .radar-section { position: relative; flex-shrink: 0; background: #000; overflow: hidden; }
@@ -1193,7 +1191,7 @@ body::after {
 .chat-log {
   flex: 1; overflow-y: auto; padding: 8px 14px;
   display: flex; flex-direction: column; gap: 0;
-  min-height: 100px;
+  min-height: 120px; max-height: 240px;
 }
 .chat-msg {
   display: flex; align-items: baseline; gap: 8px;
@@ -1233,19 +1231,6 @@ body::after {
   cursor: pointer; transition: all 0.15s; text-transform: uppercase; flex-shrink: 0;
 }
 .chat-send:hover { background: rgba(57,255,20,0.06); }
-
-/* FLASH SWITCH — inline next to SEND */
-.chat-flash-switch {
-  padding: 10px 10px; background: transparent;
-  border: none; border-left: 1px solid #0a1a0a;
-  color: #333; font-size: 0.8rem;
-  cursor: pointer; transition: all 0.15s; flex-shrink: 0;
-}
-.chat-flash-switch.active { color: var(--r); text-shadow: 0 0 8px var(--r); background: rgba(255,34,68,0.08); }
-
-/* RADAR COLLAPSIBLE */
-.radar-section { transition: max-height 0.35s ease, opacity 0.3s ease; overflow: hidden; }
-.radar-section.collapsed { max-height: 0 !important; height: 0 !important; opacity: 0; pointer-events: none; }
 
 /* SWEEP BUTTON */
 .sweep-bar {
@@ -1530,81 +1515,45 @@ body::after {
 }
 .btn-kick-oldest:hover { background: var(--r); color: #000; }
 
-/* ══ ADMIN FLASH — CINEMATIC BLACK → STANDARD (10s transition) ══ */
-/* Phase 1: FULL BLACK — only chat visible in green-on-black */
-body.admin-flash .shell { background: #000 !important; }
-body.admin-flash .status-bar { opacity: 0 !important; transition: opacity 1s ease; }
-body.admin-flash .conn-infobar { opacity: 0 !important; transition: opacity 1s ease; }
-body.admin-flash .radio-icons-bar { opacity: 0 !important; transition: opacity 1s ease; }
-body.admin-flash .mini-graphs { opacity: 0 !important; transition: opacity 1s ease; }
-body.admin-flash .tape-bar { opacity: 0 !important; transition: opacity 1s ease; }
-body.admin-flash .radar-section { opacity: 0 !important; transition: opacity 2s ease; }
-body.admin-flash #radar-toggle-bar { opacity: 0 !important; transition: opacity 1s ease; }
-body.admin-flash .sweep-bar { opacity: 0 !important; transition: opacity 1s ease; }
-body.admin-flash .footer-bar { opacity: 0 !important; transition: opacity 1s ease; }
-/* Chat stays visible — green on black */
-body.admin-flash .chat-section { border-color: var(--g) !important; box-shadow: 0 0 12px rgba(57,255,20,0.15); flex: 1; }
-body.admin-flash .chat-log { max-height: none !important; }
+/* ══ ADMIN FLASH — FULL STROBE ══ */
+body.admin-flash .shell { filter: brightness(1.5) contrast(1.3); }
 body.admin-flash .chat-msg .cm-id { color: #fff !important; }
-body.admin-flash .chat-msg .cm-text:not(.you) { color: var(--g) !important; }
-body.admin-flash .chat-msg .cm-text.you { color: #fff !important; }
-body.admin-flash .cm-time { color: var(--g) !important; }
-body.admin-flash .cm-arrow { color: var(--g) !important; }
-body.admin-flash .cm-sq { background: #fff !important; box-shadow: none !important; }
-body.admin-flash .cm-admin-tag { background: #fff !important; color: #000 !important; }
-body.admin-flash .chat-head { background: #000 !important; border-bottom-color: var(--g) !important; }
-body.admin-flash .chat-head-title { color: var(--g) !important; }
-body.admin-flash .chat-nodes-live { color: var(--g) !important; }
-body.admin-flash .chat-inp-row { border-top-color: var(--g) !important; }
+body.admin-flash .chat-msg .cm-text:not(.you) { color: rgba(255,255,255,0.5) !important; }
+body.admin-flash .radar-section { filter: grayscale(1) contrast(1.4); }
+body.admin-flash .chat-section { border-color: var(--g) !important; box-shadow: 0 0 30px rgba(57,255,20,0.3); }
+body.admin-flash .tape-bar { background: #001a00; }
+body.admin-flash .status-bar { background: var(--g) !important; }
+body.admin-flash .sb-brand { color: #000 !important; text-shadow: none !important; }
 
-/* Phase 2: Radar fades in */
-body.admin-flash.flash-phase2 .radar-section { opacity: 1 !important; transition: opacity 2s ease; }
-body.admin-flash.flash-phase2 #radar-toggle-bar { opacity: 1 !important; transition: opacity 1.5s ease; }
-
-/* Phase 3: Chrome fades back */
-body.admin-flash.flash-phase3 .status-bar { opacity: 1 !important; transition: opacity 1.5s ease; }
-body.admin-flash.flash-phase3 .conn-infobar { opacity: 1 !important; transition: opacity 1.5s ease; }
-body.admin-flash.flash-phase3 .tape-bar { opacity: 1 !important; transition: opacity 1.5s ease; }
-body.admin-flash.flash-phase3 .radio-icons-bar { opacity: 1 !important; transition: opacity 1s ease; }
-body.admin-flash.flash-phase3 .mini-graphs { opacity: 1 !important; transition: opacity 1s ease; }
-body.admin-flash.flash-phase3 .sweep-bar { opacity: 1 !important; transition: opacity 1s ease; }
-body.admin-flash.flash-phase3 .footer-bar { opacity: 1 !important; transition: opacity 1s ease; }
-
-/* SWEEP 16:9 FLASH MODE */
-body.admin-flash .sweep-overlay { background: rgba(0,0,0,1) !important; }
-body.admin-flash .sweep-topbar { opacity: 0 !important; transition: opacity 1s ease; }
-body.admin-flash .sweep-left { opacity: 0 !important; transition: opacity 2s ease; }
-body.admin-flash .sweep-threshold-box { opacity: 0 !important; transition: opacity 1s ease; }
-body.admin-flash .sweep-chat-log .sw-msg .sw-msg-text { color: var(--g) !important; }
-body.admin-flash .sweep-chat-log .sw-msg .sw-msg-name { color: #fff !important; }
-body.admin-flash.flash-phase2 .sweep-left { opacity: 1 !important; transition: opacity 2s ease; }
-body.admin-flash.flash-phase3 .sweep-topbar { opacity: 1 !important; transition: opacity 1.5s ease; }
-body.admin-flash.flash-phase3 .sweep-threshold-box { opacity: 1 !important; transition: opacity 1s ease; }
-
-@keyframes adminFlashIn {
-  0%   { background: rgba(57,255,20,0.7); }
-  100% { background: rgba(0,0,0,0.0); }
+@keyframes adminStrobe {
+  0%   { background: rgba(57,255,20,0.95); }
+  16%  { background: rgba(255,255,255,0.92); }
+  33%  { background: rgba(0,0,0,0.95); }
+  50%  { background: rgba(57,255,20,0.9); }
+  66%  { background: rgba(255,255,255,0.85); }
+  83%  { background: rgba(0,0,0,0.9); }
+  100% { background: rgba(57,255,20,0.0); }
 }
 #admin-alert-overlay .admin-alert-text {
-  font-family: var(--head); font-size: 1.4rem; font-weight: 900;
+  font-family: var(--head); font-size: 1.6rem; font-weight: 900;
   letter-spacing: 0.22em; text-align: center;
-  color: var(--g); text-shadow: 0 0 30px var(--g);
+  animation: adminTextStrobe 0.4s ease-in-out 3 forwards;
+  text-shadow: 0 0 40px rgba(57,255,20,0.8);
 }
 #admin-alert-overlay .admin-alert-sub {
-  font-family: var(--font); font-size: 0.65rem;
+  font-family: var(--font); font-size: 0.7rem;
   letter-spacing: 0.3em; margin-top: 12px;
-  color: #fff; text-shadow: 0 0 10px #fff;
+  animation: adminTextStrobe 0.4s ease-in-out 3 forwards;
 }
-
-/* ══ SSID SLEEP MODE ══ */
-body.ssid-sleeping .shell { filter: brightness(0.3) !important; pointer-events: none !important; }
-.sleep-overlay {
-  position: fixed; inset: 0; z-index: 9990; background: rgba(0,0,0,0.95);
-  display: none; align-items: center; justify-content: center; flex-direction: column; gap: 12px;
+@keyframes adminTextStrobe {
+  0%   { color: #000; }
+  16%  { color: #000; }
+  33%  { color: var(--g); text-shadow: 0 0 30px var(--g); }
+  50%  { color: #000; }
+  66%  { color: #000; }
+  83%  { color: #fff; text-shadow: 0 0 40px #fff; }
+  100% { color: transparent; }
 }
-.sleep-overlay.show { display: flex; }
-.sleep-title { font-family: var(--head); font-size: 1.2rem; font-weight: 900; color: #333; letter-spacing: 0.3em; }
-.sleep-sub { font-size: 0.52rem; color: #1a1a1a; letter-spacing: 0.2em; }
 
 /* ══ GEO LOCK MODULE ══ */
 .geo-lock-box {
@@ -2454,11 +2403,7 @@ body.ssid-sleeping .shell { filter: brightness(0.3) !important; pointer-events: 
     </div>
   </div>
 
-  <!-- RADAR MAP — collapsible -->
-  <div id="radar-toggle-bar" style="display:flex;align-items:center;justify-content:space-between;padding:4px 14px;background:#000;border-top:1px solid #0a1a0a;cursor:pointer;flex-shrink:0;" onclick="toggleRadar()">
-    <span style="font-size:0.42rem;letter-spacing:0.16em;color:#3a6a3a;">■ RADAR MAP</span>
-    <span id="radar-toggle-icon" style="font-size:0.5rem;color:#3a6a3a;transition:transform 0.25s;">▼</span>
-  </div>
+  <!-- RADAR MAP -->
   <div class="radar-section" id="radar-section">
     <canvas class="radar-canvas" id="radar-canvas"></canvas>
     <div class="radar-you-label" id="radar-you-label">YOU ■ I-NET ADMIN</div>
@@ -2477,7 +2422,6 @@ body.ssid-sleeping .shell { filter: brightness(0.3) !important; pointer-events: 
     <div class="chat-inp-row">
       <div class="chat-you-sq" id="chat-you-sq" style="background:var(--g);box-shadow:0 0 5px var(--g);"></div>
       <input class="chat-inp" id="chat-inp" placeholder="TYPE A MESSAGE…" onkeydown="if(event.key==='Enter')sendChat()">
-      <button id="chat-flash-sw" class="chat-flash-switch" onclick="toggleFlashMode()" title="FLASH MODE">⚡</button>
       <button class="chat-send" onclick="sendChat()">SEND</button>
     </div>
   </div>
@@ -2486,7 +2430,8 @@ body.ssid-sleeping .shell { filter: brightness(0.3) !important; pointer-events: 
   <div class="sweep-bar">
     <div class="sweep-label">■ RECON SWEEP · SCAN NODES</div>
     <div style="display:flex;gap:6px;">
-      <button class="btn-169" onclick="openSweep()" style="font-size:0.42rem;padding:5px 8px;">16:9 : SWEEP →</button>
+      <button class="btn-169" onclick="openSweep()">▣ 16:9</button>
+      <button class="btn-sweep" onclick="openSweep()">SWEEP →</button>
     </div>
   </div>
 </div><!-- end sc-connected -->
@@ -2546,12 +2491,6 @@ body.ssid-sleeping .shell { filter: brightness(0.3) !important; pointer-events: 
       </div>
       <div class="exp-body">
         <div class="exp-inner">
-          <div style="display:flex;gap:8px;margin-bottom:8px;align-items:center;">
-            <button class="btn-cta" id="btn-flash-toggle" style="flex:1;padding:10px;font-size:0.5rem;background:transparent;border:2px solid var(--r);color:var(--r);box-shadow:0 0 8px rgba(255,34,68,0.2);margin-top:0;" onclick="toggleFlashMode()">
-              ⚡ FLASH / BROADCAST MODE: <span id="flash-mode-label">OFF</span>
-            </button>
-          </div>
-          <div id="flash-mode-hint" style="font-size:0.42rem;color:#3a3a3a;letter-spacing:0.1em;margin-bottom:8px;text-align:center;">WHEN ON · YOUR NEXT MESSAGE TRIGGERS COMMAND MODE FLASH</div>
           <div class="chat-mon" id="adm-chat-log"></div>
           <button class="btn-cta secondary" style="margin-top:8px;padding:8px;font-size:0.5rem;" onclick="clearAdminChat()">CLEAR LOG</button>
         </div>
@@ -2582,15 +2521,10 @@ body.ssid-sleeping .shell { filter: brightness(0.3) !important; pointer-events: 
         </div>
       </div>
     </div>
-    <!-- COMMAND CENTER SHUTDOWN -->
-    <div style="padding:18px;border-top:1px solid #1a0a0a;flex-shrink:0;">
-      <button class="btn-cta" id="btn-cc-shutdown" style="background:transparent;border:2px solid var(--r);color:var(--r);box-shadow:0 0 12px rgba(255,34,68,0.15);font-size:0.6rem;letter-spacing:0.2em;" onclick="initiateShutdown()">
-        ⬛ COMMAND CENTER SHUTDOWN
-      </button>
-      <div style="font-size:0.38rem;color:#2a1a1a;letter-spacing:0.1em;text-align:center;margin-top:6px;">DISABLES ALL BROADCASTING · SSID ENTERS SLEEP MODE</div>
-    </div>
   </div>
 </div>
+
+<!-- PIN OVERLAY -->
 <div class="pin-overlay" id="pin-overlay">
   <div class="pin-title">ADMIN ACCESS</div>
   <div class="pin-sub">ENTER 4-DIGIT CC PIN</div>
@@ -2650,28 +2584,6 @@ body.ssid-sleeping .shell { filter: brightness(0.3) !important; pointer-events: 
       </div>
     </div>
   </div>
-</div>
-
-<!-- SHUTDOWN CONFIRM OVERLAY -->
-<div class="pin-overlay" id="shutdown-confirm-overlay">
-  <div class="pin-title" style="color:var(--r);text-shadow:0 0 10px var(--r);">⬛ SHUTDOWN</div>
-  <div class="pin-sub" style="color:var(--r);margin-bottom:20px;">ARE YOU SURE?</div>
-  <div style="font-size:0.48rem;color:#666;letter-spacing:0.12em;text-align:center;max-width:260px;line-height:1.8;margin-bottom:20px;">
-    THIS WILL DISABLE ALL BROADCASTING.<br>
-    SSID ENTERS SLEEP MODE.<br>
-    NO MORE MESSAGES WILL BE SENT OR RECEIVED.
-  </div>
-  <div style="display:flex;gap:10px;">
-    <button class="btn-cta" style="padding:12px 28px;background:var(--r);color:#000;font-size:0.6rem;margin-top:0;" onclick="executeShutdown()">YES · SHUTDOWN NOW</button>
-    <button class="btn-cta secondary" style="padding:12px 28px;font-size:0.6rem;margin-top:0;" onclick="cancelShutdown()">CANCEL</button>
-  </div>
-</div>
-
-<!-- SSID SLEEP MODE OVERLAY -->
-<div class="sleep-overlay" id="sleep-overlay">
-  <div class="sleep-title">SSID SLEEP MODE</div>
-  <div class="sleep-sub">ALL BROADCASTING DISABLED</div>
-  <div style="font-size:0.42rem;color:#111;letter-spacing:0.15em;margin-top:12px;">RECON 505 · OFFLINE</div>
 </div>
 
 <!-- ADMIN TRIGGER (shown after CC is live) -->
@@ -2737,89 +2649,63 @@ const CITY_DATA = [
 ];
 let cityIdx = 0;
 
-/* Network nodes — 55 nodes · 10 COLOR SPECTRUMS × 5 SHADES + 5 SPECIAL — RECON 505
-   SPECTRUM:  RED(5) · ORANGE(5) · YELLOW(5) · LIME(5) · GREEN(5) · TEAL(5) · CYAN(5) · BLUE(5) · VIOLET(5) · MAGENTA(5) + 5 WILD
-   SHADES:    S1(deepest) → S5(brightest) per spectrum */
-const COLOR_SPECTRUMS = {
-  RED:     ['#8B1A1A','#B22222','#DC2626','#EF4444','#F87171'],
-  ORANGE:  ['#92400E','#C2410C','#EA580C','#F97316','#FB923C'],
-  YELLOW:  ['#854D0E','#CA8A04','#EAB308','#FACC15','#FDE047'],
-  LIME:    ['#3F6212','#65A30D','#84CC16','#A3E635','#BEF264'],
-  GREEN:   ['#166534','#16A34A','#22C55E','#4ADE80','#86EFAC'],
-  TEAL:    ['#115E59','#0D9488','#14B8A6','#2DD4BF','#5EEAD4'],
-  CYAN:    ['#155E75','#0891B2','#06B6D4','#22D3EE','#67E8F9'],
-  BLUE:    ['#1E3A8A','#2563EB','#3B82F6','#60A5FA','#93C5FD'],
-  VIOLET:  ['#4C1D95','#7C3AED','#8B5CF6','#A78BFA','#C4B5FD'],
-  MAGENTA: ['#831843','#C026D3','#D946EF','#E879F9','#F0ABFC'],
-};
-const WILD_COLORS = ['#FF2244','#00FFD1','#FFE600','#FF00FF','#00C8FF'];
+/* Network nodes — 55 nodes · 55 colors — RECON 505 */
 const networkNodes = [
-  /* RED S1→S5 */
-  {key:'AL',name:'ALPHA',hex:'#8B1A1A',connTime:'--:--',timeLeft:26592,data:27,msgs:24},
-  {key:'BR',name:'BRAVO',hex:'#B22222',connTime:'--:--',timeLeft:48048,data:140,msgs:8},
-  {key:'CH',name:'CHARLIE',hex:'#DC2626',connTime:'--:--',timeLeft:30289,data:67,msgs:22},
-  {key:'DE',name:'DELTA',hex:'#EF4444',connTime:'--:--',timeLeft:83482,data:59,msgs:19},
-  {key:'EC',name:'ECHO',hex:'#F87171',connTime:'--:--',timeLeft:67302,data:31,msgs:1},
-  /* ORANGE S1→S5 */
-  {key:'FO',name:'FOXTROT',hex:'#92400E',connTime:'--:--',timeLeft:24280,data:126,msgs:8},
-  {key:'GO',name:'GOLF',hex:'#C2410C',connTime:'--:--',timeLeft:78237,data:28,msgs:18},
-  {key:'HO',name:'HOTEL',hex:'#EA580C',connTime:'--:--',timeLeft:38062,data:294,msgs:14},
-  {key:'IN',name:'INDIA',hex:'#F97316',connTime:'--:--',timeLeft:40893,data:244,msgs:19},
-  {key:'JU',name:'JULIET',hex:'#FB923C',connTime:'--:--',timeLeft:48463,data:18,msgs:25},
-  /* YELLOW S1→S5 */
-  {key:'KI',name:'KILO',hex:'#854D0E',connTime:'--:--',timeLeft:32926,data:231,msgs:11},
-  {key:'LI',name:'LIMA',hex:'#CA8A04',connTime:'--:--',timeLeft:48421,data:94,msgs:7},
-  {key:'MI',name:'MIKE',hex:'#EAB308',connTime:'--:--',timeLeft:56118,data:67,msgs:3},
-  {key:'NO',name:'NOVA',hex:'#FACC15',connTime:'--:--',timeLeft:61797,data:64,msgs:12},
-  {key:'OS',name:'OSCAR',hex:'#FDE047',connTime:'--:--',timeLeft:57082,data:150,msgs:26},
-  /* LIME S1→S5 */
-  {key:'PA',name:'PAPA',hex:'#3F6212',connTime:'--:--',timeLeft:17695,data:250,msgs:18},
-  {key:'QU',name:'QUARK',hex:'#65A30D',connTime:'--:--',timeLeft:28361,data:208,msgs:3},
-  {key:'RO',name:'ROMEO',hex:'#84CC16',connTime:'--:--',timeLeft:84357,data:165,msgs:27},
-  {key:'SI',name:'SIGMA',hex:'#A3E635',connTime:'--:--',timeLeft:59400,data:310,msgs:7},
-  {key:'TA',name:'TANGO',hex:'#BEF264',connTime:'--:--',timeLeft:21116,data:38,msgs:22},
-  /* GREEN S1→S5 */
-  {key:'UL',name:'ULTRA',hex:'#166534',connTime:'--:--',timeLeft:41871,data:163,msgs:3},
-  {key:'VA',name:'VAPOR',hex:'#16A34A',connTime:'--:--',timeLeft:42512,data:66,msgs:13},
-  {key:'WI',name:'WIRED',hex:'#22C55E',connTime:'--:--',timeLeft:48434,data:247,msgs:21},
-  {key:'XE',name:'XENON',hex:'#4ADE80',connTime:'--:--',timeLeft:59819,data:98,msgs:12},
-  {key:'YI',name:'YIELD',hex:'#86EFAC',connTime:'--:--',timeLeft:58566,data:122,msgs:22},
-  /* TEAL S1→S5 */
-  {key:'ZU',name:'ZULU',hex:'#115E59',connTime:'--:--',timeLeft:46993,data:51,msgs:20},
-  {key:'NE',name:'NEXUS',hex:'#0D9488',connTime:'--:--',timeLeft:34431,data:288,msgs:24},
-  {key:'OM',name:'OMEGA',hex:'#14B8A6',connTime:'--:--',timeLeft:44087,data:98,msgs:15},
-  {key:'PI',name:'PIXEL',hex:'#2DD4BF',connTime:'--:--',timeLeft:61735,data:153,msgs:21},
-  {key:'RE',name:'RELAY',hex:'#5EEAD4',connTime:'--:--',timeLeft:85000,data:127,msgs:22},
-  /* CYAN S1→S5 */
-  {key:'SC',name:'SCOPE',hex:'#155E75',connTime:'--:--',timeLeft:54504,data:43,msgs:8},
-  {key:'TI',name:'TITAN',hex:'#0891B2',connTime:'--:--',timeLeft:16207,data:176,msgs:13},
-  {key:'UN',name:'UNITY',hex:'#06B6D4',connTime:'--:--',timeLeft:47093,data:48,msgs:7},
-  {key:'VO',name:'VORTEX',hex:'#22D3EE',connTime:'--:--',timeLeft:53245,data:123,msgs:21},
-  {key:'WA',name:'WAVE',hex:'#67E8F9',connTime:'--:--',timeLeft:77435,data:217,msgs:21},
-  /* BLUE S1→S5 */
-  {key:'XR',name:'XRAY',hex:'#1E3A8A',connTime:'--:--',timeLeft:72142,data:88,msgs:9},
-  {key:'YO',name:'YOKE',hex:'#2563EB',connTime:'--:--',timeLeft:30301,data:141,msgs:24},
-  {key:'ZE',name:'ZERO',hex:'#3B82F6',connTime:'--:--',timeLeft:82644,data:149,msgs:24},
-  {key:'AT',name:'ATLAS',hex:'#60A5FA',connTime:'--:--',timeLeft:68155,data:313,msgs:13},
-  {key:'BL',name:'BLADE',hex:'#93C5FD',connTime:'--:--',timeLeft:59447,data:127,msgs:5},
-  /* VIOLET S1→S5 */
-  {key:'CI',name:'CIPHER',hex:'#4C1D95',connTime:'--:--',timeLeft:78784,data:267,msgs:3},
-  {key:'DR',name:'DRIFT',hex:'#7C3AED',connTime:'--:--',timeLeft:18175,data:71,msgs:5},
-  {key:'EM',name:'EMBER',hex:'#8B5CF6',connTime:'--:--',timeLeft:32969,data:231,msgs:20},
-  {key:'FL',name:'FLUX',hex:'#A78BFA',connTime:'--:--',timeLeft:20326,data:212,msgs:13},
-  {key:'GH',name:'GHOST',hex:'#C4B5FD',connTime:'--:--',timeLeft:73348,data:285,msgs:9},
-  /* MAGENTA S1→S5 */
-  {key:'HE',name:'HELIX',hex:'#831843',connTime:'--:--',timeLeft:84512,data:20,msgs:22},
-  {key:'IO',name:'ION',hex:'#C026D3',connTime:'--:--',timeLeft:27014,data:289,msgs:25},
-  {key:'JA',name:'JAM',hex:'#D946EF',connTime:'--:--',timeLeft:46973,data:189,msgs:4},
-  {key:'KR',name:'KRON',hex:'#E879F9',connTime:'--:--',timeLeft:50469,data:237,msgs:6},
-  {key:'LU',name:'LUMEN',hex:'#F0ABFC',connTime:'--:--',timeLeft:71470,data:16,msgs:24},
-  /* WILD 5 (bonus spectrum) */
-  {key:'MO',name:'MONO',hex:'#FF2244',connTime:'--:--',timeLeft:46522,data:271,msgs:25},
-  {key:'ND',name:'NODE',hex:'#00FFD1',connTime:'--:--',timeLeft:35416,data:274,msgs:4},
-  {key:'OR',name:'ORBIT',hex:'#FFE600',connTime:'--:--',timeLeft:51117,data:274,msgs:20},
-  {key:'PH',name:'PHASE',hex:'#FF00FF',connTime:'--:--',timeLeft:38071,data:93,msgs:12},
-  {key:'RN',name:'RECON',hex:'#00C8FF',connTime:'--:--',timeLeft:33174,data:291,msgs:25}
+  {key:'AL',name:'ALPHA',hex:'#C62323',connTime:'--:--',timeLeft:26592,data:27,msgs:24},
+  {key:'BR',name:'BRAVO',hex:'#D2301C',connTime:'--:--',timeLeft:48048,data:140,msgs:8},
+  {key:'CH',name:'CHARLIE',hex:'#DD3F13',connTime:'--:--',timeLeft:30289,data:67,msgs:22},
+  {key:'DE',name:'DELTA',hex:'#E8530A',connTime:'--:--',timeLeft:83482,data:59,msgs:19},
+  {key:'EC',name:'ECHO',hex:'#F3832B',connTime:'--:--',timeLeft:67302,data:31,msgs:1},
+  {key:'FO',name:'FOXTROT',hex:'#C6781A',connTime:'--:--',timeLeft:24280,data:126,msgs:8},
+  {key:'GO',name:'GOLF',hex:'#D29012',connTime:'--:--',timeLeft:78237,data:28,msgs:18},
+  {key:'HO',name:'HOTEL',hex:'#DDAB09',connTime:'--:--',timeLeft:38062,data:294,msgs:14},
+  {key:'IN',name:'INDIA',hex:'#E8D029',connTime:'--:--',timeLeft:40893,data:244,msgs:19},
+  {key:'JU',name:'JULIET',hex:'#F3EF20',connTime:'--:--',timeLeft:48463,data:18,msgs:25},
+  {key:'KI',name:'KILO',hex:'#B6C611',connTime:'--:--',timeLeft:32926,data:231,msgs:11},
+  {key:'LI',name:'LIMA',hex:'#A9D209',connTime:'--:--',timeLeft:48421,data:94,msgs:7},
+  {key:'MI',name:'MIKE',hex:'#A5DD27',connTime:'--:--',timeLeft:56118,data:67,msgs:3},
+  {key:'NO',name:'NOVA',hex:'#94E81F',connTime:'--:--',timeLeft:61797,data:64,msgs:12},
+  {key:'OS',name:'OSCAR',hex:'#7EF315',connTime:'--:--',timeLeft:57082,data:150,msgs:26},
+  {key:'PA',name:'PAPA',hex:'#4EC608',connTime:'--:--',timeLeft:17695,data:250,msgs:18},
+  {key:'QU',name:'QUARK',hex:'#51D225',connTime:'--:--',timeLeft:28361,data:208,msgs:3},
+  {key:'RO',name:'ROMEO',hex:'#39DD1D',connTime:'--:--',timeLeft:84357,data:165,msgs:27},
+  {key:'SI',name:'SIGMA',hex:'#1CE814',connTime:'--:--',timeLeft:59400,data:310,msgs:7},
+  {key:'TA',name:'TANGO',hex:'#0AF31B',connTime:'--:--',timeLeft:21116,data:38,msgs:22},
+  {key:'UL',name:'ULTRA',hex:'#23C641',connTime:'--:--',timeLeft:41871,data:163,msgs:3},
+  {key:'VA',name:'VAPOR',hex:'#1CD251',connTime:'--:--',timeLeft:42512,data:66,msgs:13},
+  {key:'WI',name:'WIRED',hex:'#13DD64',connTime:'--:--',timeLeft:48434,data:247,msgs:21},
+  {key:'XE',name:'XENON',hex:'#0AE87B',connTime:'--:--',timeLeft:59819,data:98,msgs:12},
+  {key:'YI',name:'YIELD',hex:'#2BF3A7',connTime:'--:--',timeLeft:58566,data:122,msgs:22},
+  {key:'ZU',name:'ZULU',hex:'#1AC697',connTime:'--:--',timeLeft:46993,data:51,msgs:20},
+  {key:'NE',name:'NEXUS',hex:'#12D2B2',connTime:'--:--',timeLeft:34431,data:288,msgs:24},
+  {key:'OM',name:'OMEGA',hex:'#09DDD1',connTime:'--:--',timeLeft:44087,data:98,msgs:15},
+  {key:'PI',name:'PIXEL',hex:'#29DEE8',connTime:'--:--',timeLeft:61735,data:153,msgs:21},
+  {key:'RE',name:'RELAY',hex:'#20D1F3',connTime:'--:--',timeLeft:85000,data:127,msgs:22},
+  {key:'SC',name:'SCOPE',hex:'#1195C6',connTime:'--:--',timeLeft:54504,data:43,msgs:8},
+  {key:'TI',name:'TITAN',hex:'#0985D2',connTime:'--:--',timeLeft:16207,data:176,msgs:13},
+  {key:'UN',name:'UNITY',hex:'#2784DD',connTime:'--:--',timeLeft:47093,data:48,msgs:7},
+  {key:'VO',name:'VORTEX',hex:'#1F6FE8',connTime:'--:--',timeLeft:53245,data:123,msgs:21},
+  {key:'WA',name:'WAVE',hex:'#1556F3',connTime:'--:--',timeLeft:77435,data:217,msgs:21},
+  {key:'XR',name:'XRAY',hex:'#082BC6',connTime:'--:--',timeLeft:72142,data:88,msgs:9},
+  {key:'YO',name:'YOKE',hex:'#2532D2',connTime:'--:--',timeLeft:30301,data:141,msgs:24},
+  {key:'ZE',name:'ZERO',hex:'#241DDD',connTime:'--:--',timeLeft:82644,data:149,msgs:24},
+  {key:'AT',name:'ATLAS',hex:'#3314E8',connTime:'--:--',timeLeft:68155,data:313,msgs:13},
+  {key:'BL',name:'BLADE',hex:'#460AF3',connTime:'--:--',timeLeft:59447,data:127,msgs:5},
+  {key:'CI',name:'CIPHER',hex:'#5F23C6',connTime:'--:--',timeLeft:78784,data:267,msgs:3},
+  {key:'DR',name:'DRIFT',hex:'#721CD2',connTime:'--:--',timeLeft:18175,data:71,msgs:5},
+  {key:'EM',name:'EMBER',hex:'#8913DD',connTime:'--:--',timeLeft:32969,data:231,msgs:20},
+  {key:'FL',name:'FLUX',hex:'#A30AE8',connTime:'--:--',timeLeft:20326,data:212,msgs:13},
+  {key:'GH',name:'GHOST',hex:'#CB2BF3',connTime:'--:--',timeLeft:73348,data:285,msgs:9},
+  {key:'HE',name:'HELIX',hex:'#B71AC6',connTime:'--:--',timeLeft:84512,data:20,msgs:22},
+  {key:'IO',name:'ION',hex:'#D212CE',connTime:'--:--',timeLeft:27014,data:289,msgs:25},
+  {key:'JA',name:'JAM',hex:'#DD09C2',connTime:'--:--',timeLeft:46973,data:189,msgs:4},
+  {key:'KR',name:'KRON',hex:'#E829BB',connTime:'--:--',timeLeft:50469,data:237,msgs:6},
+  {key:'LU',name:'LUMEN',hex:'#F320AA',connTime:'--:--',timeLeft:71470,data:16,msgs:24},
+  {key:'MO',name:'MONO',hex:'#C61174',connTime:'--:--',timeLeft:46522,data:271,msgs:25},
+  {key:'NO',name:'NODE',hex:'#D20961',connTime:'--:--',timeLeft:35416,data:274,msgs:4},
+  {key:'OR',name:'ORBIT',hex:'#DD2763',connTime:'--:--',timeLeft:51117,data:274,msgs:20},
+  {key:'PH',name:'PHASE',hex:'#E81F4B',connTime:'--:--',timeLeft:38071,data:93,msgs:12},
+  {key:'RE',name:'RECON',hex:'#F3152E',connTime:'--:--',timeLeft:33174,data:291,msgs:25}
 ];
 
 /* DEMO OTPs */
@@ -3645,10 +3531,7 @@ function openTapeDetail(idx, td) {
 
   const content = document.getElementById('td-content');
   const msgs = generateTapeMessages(td.msgs, td.label);
-
-  /* AI SUMMARY — emulated analysis prepended before chat messages */
-  const aiSummary = generateAISummary(td, msgs);
-  const msgsHtml = msgs.map(m => `
+  content.innerHTML = msgs.map(m => `
     <div class="td-msg">
       <span class="td-msg-time">[${m.t}]</span>
       <span class="td-msg-who" style="color:${m.hex};">${m.name}</span>
@@ -3657,56 +3540,7 @@ function openTapeDetail(idx, td) {
     </div>
   `).join('');
 
-  content.innerHTML = aiSummary + `<div style="border-top:1px solid #0d2a0d;margin:12px 0 8px;padding-top:8px;font-size:0.42rem;letter-spacing:0.2em;color:#2a5a2a;">RAW CHAT LOG</div>` + msgsHtml;
-
   document.getElementById('tape-detail-overlay').classList.add('open');
-}
-
-/* AI SUMMARY GENERATOR — emulated for each tape backup */
-function generateAISummary(td, msgs) {
-  const uniqueNodes = [...new Set(msgs.map(m=>m.name))];
-  const topTalkers = uniqueNodes.slice(0,3);
-  const topics = ['coworking','productivity','networking','deals','deep work','mesh signal','fintech','startup vibes'];
-  const pickedTopics = topics.sort(()=>Math.random()-0.5).slice(0,3);
-  const energy = td.msgs > 40 ? 'HIGH' : td.msgs > 15 ? 'MODERATE' : 'LOW';
-  const energyColor = td.msgs > 40 ? 'var(--g)' : td.msgs > 15 ? 'var(--y)' : '#666';
-  const sentiment = td.msgs > 30 ? 'POSITIVE · COLLABORATIVE' : td.msgs > 10 ? 'FOCUSED · PRODUCTIVE' : 'QUIET · DEEP WORK';
-
-  return `<div style="border:1px solid rgba(57,255,20,0.2);background:rgba(57,255,20,0.02);padding:12px 14px;margin-bottom:12px;">
-    <div style="display:flex;align-items:center;gap:6px;margin-bottom:8px;">
-      <span style="font-size:0.7rem;color:var(--g);">◈</span>
-      <span style="font-family:var(--head);font-size:0.52rem;font-weight:700;letter-spacing:0.18em;color:var(--g);text-shadow:0 0 6px var(--g);">AI SESSION SUMMARY</span>
-    </div>
-    <div style="font-size:0.48rem;color:#5a8a5a;letter-spacing:0.06em;line-height:1.9;">
-      <div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid #080808;">
-        <span style="color:#4a7a4a;">MESSAGES</span>
-        <span style="color:#fff;font-weight:700;">${td.msgs}</span>
-      </div>
-      <div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid #080808;">
-        <span style="color:#4a7a4a;">ACTIVE NODES</span>
-        <span style="color:#fff;font-weight:700;">${uniqueNodes.length} / 55</span>
-      </div>
-      <div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid #080808;">
-        <span style="color:#4a7a4a;">ENERGY LEVEL</span>
-        <span style="color:${energyColor};font-weight:700;">${energy}</span>
-      </div>
-      <div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid #080808;">
-        <span style="color:#4a7a4a;">SENTIMENT</span>
-        <span style="color:var(--g);font-weight:700;">${sentiment}</span>
-      </div>
-      <div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid #080808;">
-        <span style="color:#4a7a4a;">TOP TALKERS</span>
-        <span style="color:#fff;font-weight:700;">${topTalkers.join(' · ')}</span>
-      </div>
-      <div style="display:flex;justify-content:space-between;padding:3px 0;">
-        <span style="color:#4a7a4a;">KEY TOPICS</span>
-        <span style="color:var(--g);">${pickedTopics.join(' · ')}</span>
-      </div>
-    </div>
-    <div style="margin-top:8px;font-size:0.44rem;color:#3a6a3a;letter-spacing:0.06em;line-height:1.7;border-top:1px solid #0d2a0d;padding-top:8px;">
-      ◈ Session ${td.label}: ${uniqueNodes.length} nodes active across the mesh. ${energy === 'HIGH' ? 'High engagement session with strong cross-node interaction.' : energy === 'MODERATE' ? 'Steady collaborative activity with focused discussions.' : 'Quiet deep-work session with minimal cross-chatter.'} Primary themes: ${pickedTopics.join(', ')}. Mesh integrity: 100%. No anomalies detected.
-    </div>
-  </div>`;
 }
 
 const TAPE_MSG_TEXTS = [
@@ -3765,7 +3599,6 @@ function initRadar() {
 function drawRadar(canvas, cx, cy, maxR, W, H) {
   const ctx = canvas.getContext('2d');
   function frame() {
-    const isFlashMode = document.body.classList.contains('admin-flash');
     ctx.clearRect(0,0,W,H);
     ctx.strokeStyle = '#040f04'; ctx.lineWidth = 1;
     for(let x=0;x<W;x+=22){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}
@@ -3773,9 +3606,8 @@ function drawRadar(canvas, cx, cy, maxR, W, H) {
     [0.25,0.5,0.75,1.0].forEach(r=>{ctx.beginPath();ctx.arc(cx,cy,maxR*r,0,Math.PI*2);ctx.strokeStyle='#060f06';ctx.lineWidth=1;ctx.stroke();});
     sweepAngle+=0.018;
     ctx.save();ctx.translate(cx,cy);ctx.rotate(sweepAngle);
-    const sweepColor = isFlashMode ? '#39FF14' : lastMsgColor;
     const sg=ctx.createLinearGradient(0,0,maxR,0);
-    sg.addColorStop(0,'rgba(57,255,20,0.0)');sg.addColorStop(0.7,`rgba(${hexToRgb(sweepColor)},0.18)`);sg.addColorStop(1,`rgba(${hexToRgb(sweepColor)},0.38)`);
+    sg.addColorStop(0,'rgba(57,255,20,0.0)');sg.addColorStop(0.7,`rgba(${hexToRgb(lastMsgColor)},0.18)`);sg.addColorStop(1,`rgba(${hexToRgb(lastMsgColor)},0.38)`);
     ctx.beginPath();ctx.moveTo(0,0);ctx.arc(0,0,maxR,-0.45,0.45);ctx.closePath();ctx.fillStyle=sg;ctx.fill();ctx.restore();
     // Hub
     ctx.fillStyle='#39FF14';ctx.shadowColor='#39FF14';ctx.shadowBlur=14;ctx.fillRect(cx-8,cy-8,16,16);ctx.shadowBlur=0;
@@ -3787,17 +3619,15 @@ function drawRadar(canvas, cx, cy, maxR, W, H) {
       else{ctx.strokeStyle='rgba(255,255,255,0.04)';ctx.setLineDash([3,8]);ctx.lineWidth=0.7;}
       ctx.stroke();ctx.setLineDash([]);
     });
-    // Dots — during FLASH: white + 50% smaller
+    // Dots
     radarDots.forEach(d=>{
       d.pulse+=0.04;
       const alpha=d.isYou?1:(0.7+Math.sin(d.pulse)*0.3);
-      const baseSz=d.isYou?13:10;
-      const sz = isFlashMode ? Math.round(baseSz * 0.5) : baseSz;
-      const dotColor = isFlashMode && !d.isYou ? '#FFFFFF' : d.color;
-      if(d.isYou){ctx.shadowColor=dotColor;ctx.shadowBlur=12+Math.sin(d.pulse)*6;}
-      ctx.globalAlpha=alpha;ctx.fillStyle=dotColor;ctx.fillRect(d.x-sz/2,d.y-sz/2,sz,sz);ctx.globalAlpha=1;ctx.shadowBlur=0;
+      const sz=d.isYou?13:10;
+      if(d.isYou){ctx.shadowColor=d.color;ctx.shadowBlur=12+Math.sin(d.pulse)*6;}
+      ctx.globalAlpha=alpha;ctx.fillStyle=d.color;ctx.fillRect(d.x-sz/2,d.y-sz/2,sz,sz);ctx.globalAlpha=1;ctx.shadowBlur=0;
       ctx.font=d.isYou?'bold 7px Space Mono,monospace':'6px Space Mono,monospace';ctx.textAlign='center';ctx.textBaseline='top';
-      ctx.fillStyle=dotColor;ctx.globalAlpha=d.isYou?1:0.6;
+      ctx.fillStyle=d.color;ctx.globalAlpha=d.isYou?1:0.6;
       ctx.fillText(d.isYou?'YOU':d.key,d.x,d.y+sz/2+3);ctx.globalAlpha=1;
     });
     radarAnimFrame=requestAnimationFrame(frame);
@@ -3879,14 +3709,13 @@ function addChatMessage(key, name, hex, text, isYou, isResponse=false) {
   const meta = document.getElementById('exp-chat-meta');
   if(meta) meta.textContent = allChatMessages.length + ' MESSAGES';
   if(!isYou && !isResponse) { playChatReceive(); updateSweepColor(hex); }
-  /* ADMIN FLASH only when FLASH MODE is ON (toggled from Admin Panel) */
-  if(isYou && flashModeOn && typeof triggerAdminFlash === 'function') triggerAdminFlash();
+  /* ADMIN FLASH on your sends */
+  if(isYou && typeof triggerAdminFlash === 'function') triggerAdminFlash();
   /* SWEEP FEED HOOK */
   if(typeof addSweepChatMsg === 'function') addSweepChatMsg({t, key, name: isYou?(S.ccName||name):displayName, hex, text, isYou});
 }
 
 function sendChat() {
-  if(ssidSleeping) return; /* SSID SLEEP MODE — no broadcasting */
   const inp = document.getElementById('chat-inp');
   const text = inp.value.trim();
   if(!text) return;
@@ -3930,7 +3759,6 @@ function autoChatLoop() {
     'loving this I-NET setup here','just hit 100k arr. unreal.',
   ];
   function send() {
-    if(ssidSleeping) return; /* SSID SLEEP MODE — no broadcasting */
     const node = networkNodes[Math.floor(Math.random() * networkNodes.length)];
     const text = msgs[Math.floor(Math.random() * msgs.length)];
     addChatMessage(node.key, node.name, node.hex, text, false);
@@ -4031,14 +3859,7 @@ function renderAdminUsage() {
   document.getElementById('adm-data').textContent      = totalStr;
 }
 
-function clearAdminChat() {
-  if(!confirm('ARE YOU SURE?\nThis will permanently clear all chat messages from both admin monitor and main chat.')) return;
-  document.getElementById('adm-chat-log').innerHTML='';
-  document.getElementById('chat-log').innerHTML='';
-  allChatMessages.length=0;
-  document.getElementById('exp-chat-meta').textContent='0 MESSAGES';
-  playTone(300, 0.06, 'sine', 0.1);
-}
+function clearAdminChat() { document.getElementById('adm-chat-log').innerHTML=''; allChatMessages.length=0; document.getElementById('exp-chat-meta').textContent='0 MESSAGES'; }
 
 /* ══════════════════════════════════════════════
    SWEEP — FULL LIVE MODULE
@@ -4110,7 +3931,6 @@ function drawSweepRadar(canvas, cx, cy, maxR, W, H) {
   const ctx = canvas.getContext('2d');
   function frame() {
     if(!sweepOpen) return;
-    const isFlashMode = document.body.classList.contains('admin-flash');
     ctx.clearRect(0,0,W,H);
     ctx.strokeStyle = '#040f04'; ctx.lineWidth = 0.5;
     for(let x=0;x<W;x+=18){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}
@@ -4118,9 +3938,8 @@ function drawSweepRadar(canvas, cx, cy, maxR, W, H) {
     [0.25,0.5,0.75,1].forEach(r=>{ctx.beginPath();ctx.arc(cx,cy,maxR*r,0,Math.PI*2);ctx.strokeStyle='#061a06';ctx.lineWidth=0.5;ctx.stroke();});
 
     sweepAngle2 += 0.015;
-    /* SWEEP BEAM — green during flash, else follows persona color */
-    const beamColor = isFlashMode ? '#39FF14' : (lastMsgColor || '#39FF14');
-    const beamRgb = hexToRgb(beamColor);
+    /* SWEEP BEAM — follows last persona color */
+    const beamRgb = hexToRgb(lastMsgColor || '#39FF14');
     ctx.save(); ctx.translate(cx,cy); ctx.rotate(sweepAngle2);
     const sg = ctx.createLinearGradient(0,0,maxR,0);
     sg.addColorStop(0,`rgba(${beamRgb},0.0)`);
@@ -4129,8 +3948,8 @@ function drawSweepRadar(canvas, cx, cy, maxR, W, H) {
     ctx.beginPath(); ctx.moveTo(0,0); ctx.arc(0,0,maxR,-0.4,0.4); ctx.closePath();
     ctx.fillStyle = sg; ctx.fill(); ctx.restore();
 
-    /* HUB center */
-    const hubColor = isFlashMode ? '#39FF14' : (lastMsgColor || '#00C8FF');
+    /* HUB center — also tinted by last persona */
+    const hubColor = lastMsgColor || '#00C8FF';
     ctx.fillStyle=hubColor;
     ctx.shadowColor=hubColor; ctx.shadowBlur=10;
     ctx.fillRect(cx-6,cy-6,12,12);
@@ -4139,20 +3958,18 @@ function drawSweepRadar(canvas, cx, cy, maxR, W, H) {
     ctx.fillText('HUB',cx,cy);
 
     const onlineCount = sweepLiveNodes.filter(n=>n.online).length;
-    const baseDotSz = getSweepDotSize(onlineCount);
-    const dotSz = isFlashMode ? Math.max(2, Math.round(baseDotSz * 0.5)) : baseDotSz;
+    const dotSz = getSweepDotSize(onlineCount);
 
     sweepLiveNodes.forEach(n => {
       if(!n.online) return;
       n.pulse += 0.03;
       const isLastSender = (n.hex === lastMsgColor);
       const alpha = isLastSender ? 1 : (0.6 + Math.sin(n.pulse) * 0.4);
-      const dotColor = isFlashMode ? '#FFFFFF' : n.hex;
       ctx.globalAlpha = alpha;
-      ctx.fillStyle = dotColor;
+      ctx.fillStyle = n.hex;
       ctx.fillRect(n.sx - dotSz/2, n.sy - dotSz/2, dotSz, dotSz);
       /* JUMP HIGHLIGHT: pulsing ring on last messager */
-      if(isLastSender && !isFlashMode) {
+      if(isLastSender) {
         const ringR = dotSz + 4 + Math.sin(n.pulse * 2) * 3;
         ctx.strokeStyle = n.hex; ctx.lineWidth = 2;
         ctx.globalAlpha = 0.5 + Math.sin(n.pulse * 3) * 0.4;
@@ -4162,7 +3979,7 @@ function drawSweepRadar(canvas, cx, cy, maxR, W, H) {
       if(dotSz >= 9) {
         ctx.font = dotSz >= 14 ? '7px Space Mono,monospace' : '5px Space Mono,monospace';
         ctx.textAlign = 'center'; ctx.textBaseline = 'top';
-        ctx.fillStyle = dotColor; ctx.globalAlpha = 0.6;
+        ctx.fillStyle = n.hex; ctx.globalAlpha = 0.6;
         ctx.fillText(n.key, n.sx, n.sy + dotSz/2 + 2);
         ctx.globalAlpha = 1;
       }
@@ -4357,133 +4174,43 @@ function activateGeoLock(cityData) {
 const _origAutoDetect = autoDetectCity;
 
 /* ══════════════════════════════════════════════
-   ADMIN FLASH — CINEMATIC BLACK → STANDARD (10s, phased)
+   ADMIN MESSAGE FLASH (GREEN → WHITE → BLACK STROBE)
 ══════════════════════════════════════════════ */
 let adminFlashTimeout = null;
-let adminFlashPhaseTimers = [];
-let flashModeOn = false; /* FLASH TOGGLE STATE — persistent */
-let ssidSleeping = false;
-let radarCollapsed = false;
-
-/* RADAR COLLAPSE TOGGLE */
-function toggleRadar() {
-  radarCollapsed = !radarCollapsed;
-  const section = document.getElementById('radar-section');
-  const icon = document.getElementById('radar-toggle-icon');
-  if(radarCollapsed) {
-    section.classList.add('collapsed');
-    icon.style.transform = 'rotate(-90deg)';
-    icon.textContent = '▶';
-  } else {
-    section.classList.remove('collapsed');
-    icon.style.transform = 'rotate(0deg)';
-    icon.textContent = '▼';
-  }
-}
-
-function toggleFlashMode() {
-  flashModeOn = !flashModeOn;
-  /* Update Admin Panel button */
-  const btn = document.getElementById('btn-flash-toggle');
-  const lbl = document.getElementById('flash-mode-label');
-  /* Update inline chat switch */
-  const sw = document.getElementById('chat-flash-sw');
-  if(flashModeOn) {
-    if(lbl) lbl.textContent = 'ON';
-    if(btn) { btn.style.background = 'rgba(255,34,68,0.15)'; btn.style.color = '#fff'; btn.style.borderColor = 'var(--r)'; btn.style.boxShadow = '0 0 16px rgba(255,34,68,0.4)'; }
-    if(sw) sw.classList.add('active');
-    playTone(800, 0.08, 'square', 0.08);
-  } else {
-    if(lbl) lbl.textContent = 'OFF';
-    if(btn) { btn.style.background = 'transparent'; btn.style.color = 'var(--r)'; btn.style.boxShadow = '0 0 8px rgba(255,34,68,0.2)'; }
-    if(sw) sw.classList.remove('active');
-    playTone(300, 0.06, 'sine', 0.08);
-  }
-}
-
 function triggerAdminFlash() {
-  if(ssidSleeping) return;
   const body = document.body;
+  /* Remove previous if still active */
   const prev = document.getElementById('admin-alert-overlay');
   if(prev) prev.remove();
   if(adminFlashTimeout) clearTimeout(adminFlashTimeout);
-  adminFlashPhaseTimers.forEach(t=>clearTimeout(t));
-  adminFlashPhaseTimers = [];
 
-  /* Remove any lingering phase classes */
-  body.classList.remove('admin-flash','flash-phase2','flash-phase3');
-
-  /* Flash overlay — brief alert text */
+  /* Full-screen overlay */
   const ov = document.createElement('div');
   ov.id = 'admin-alert-overlay';
   ov.innerHTML = `
-    <div class="admin-alert-text">⚠ COMMAND BROADCAST ⚠</div>
-    <div class="admin-alert-sub">ADMIN · FLASH MESSAGE</div>
+    <div class="admin-alert-text">⚠ ADMIN MESSAGE ALERT ⚠</div>
+    <div class="admin-alert-sub">COMMAND CHANNEL · BROADCAST MODE</div>
   `;
   Object.assign(ov.style, {
     position:'fixed', inset:'0', zIndex:'9995', display:'flex',
     flexDirection:'column', alignItems:'center', justifyContent:'center',
     pointerEvents:'none',
-    animation:'adminFlashIn 0.6s ease-out forwards'
+    animation:'adminStrobe 0.4s ease-in-out 3 forwards'
   });
   body.appendChild(ov);
 
-  /* Sound: alert tone */
-  playTone(900, 0.12, 'square', 0.1);
-  setTimeout(()=> playTone(1100, 0.08, 'sine', 0.12), 200);
+  /* Sound: alarm triple-beep */
+  [0,150,300].forEach(d => setTimeout(()=> playTone(900, 0.12, 'square', 0.1), d));
 
-  /* PHASE 1: FULL BLACK — only chat visible (0s) */
+  /* Body class for CSS overrides */
   body.classList.add('admin-flash');
 
-  /* Remove alert overlay after 1.5s */
-  adminFlashPhaseTimers.push(setTimeout(()=>{
-    const el = document.getElementById('admin-alert-overlay');
-    if(el) { el.style.opacity='0'; el.style.transition='opacity 0.8s'; setTimeout(()=>el.remove(),800); }
-  }, 1500));
-
-  /* PHASE 2: Radar fades in (3s) */
-  adminFlashPhaseTimers.push(setTimeout(()=>{
-    body.classList.add('flash-phase2');
-  }, 3000));
-
-  /* PHASE 3: Chrome/frame fades back (6s) */
-  adminFlashPhaseTimers.push(setTimeout(()=>{
-    body.classList.add('flash-phase3');
-  }, 6000));
-
-  /* EXIT: Remove all flash classes at 10s */
+  /* Clean up after strobe */
   adminFlashTimeout = setTimeout(()=>{
-    body.classList.remove('admin-flash','flash-phase2','flash-phase3');
-  }, 10000);
-
-  /* NOTE: flashModeOn stays persistent — NOT auto-reset */
-}
-
-/* SHUTDOWN FUNCTIONS */
-function initiateShutdown() {
-  closeAdmin();
-  document.getElementById('shutdown-confirm-overlay').classList.add('open');
-  playTone(300, 0.1, 'sawtooth', 0.15);
-}
-function cancelShutdown() {
-  document.getElementById('shutdown-confirm-overlay').classList.remove('open');
-  playClick();
-}
-function executeShutdown() {
-  document.getElementById('shutdown-confirm-overlay').classList.remove('open');
-  ssidSleeping = true;
-  /* Shutdown effect: power-down sound */
-  [600,500,400,300,200,100].forEach((f,i)=>setTimeout(()=>playTone(f,0.08,'sawtooth',0.2),i*180));
-  /* Dim everything progressively */
-  const body = document.body;
-  body.classList.add('ssid-sleeping');
-  /* Stop all intervals */
-  if(S.sessionInterval) clearInterval(S.sessionInterval);
-  if(sweepEmulInterval) clearInterval(sweepEmulInterval);
-  /* Show sleep overlay after dimming */
-  setTimeout(()=>{
-    document.getElementById('sleep-overlay').classList.add('show');
-  }, 1200);
+    body.classList.remove('admin-flash');
+    const el = document.getElementById('admin-alert-overlay');
+    if(el) { el.style.opacity='0'; el.style.transition='opacity 0.5s'; setTimeout(()=>el.remove(),500); }
+  }, 2800);
 }
 
 /* [WRAPPER REMOVED — merged into original addChatMessage to fix infinite recursion] */
