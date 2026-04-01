@@ -696,31 +696,29 @@ body::after {
 .pin-err { font-size: 0.52rem; color: var(--r); letter-spacing: 0.15em; min-height: 18px; }
 .pin-cancel { font-size: 0.52rem; color: #333; cursor: pointer; padding: 8px; transition: color 0.2s; }
 .pin-cancel:hover { color: #666; }
-.sweep-overlay { position: fixed; inset: 0; z-index: 880; background: rgba(0,0,0,0.96); display: none; align-items: center; justify-content: center; overflow: hidden; }
+.sweep-overlay { position: fixed; inset: 0; z-index: 880; background: #000; display: none; overflow: hidden; }
 .sweep-overlay.open { display: flex; }
-.sweep-inner-16-9 { width: min(100vw, calc(100vh * 16 / 9)); height: min(100vh, calc(100vw * 9 / 16)); aspect-ratio: 16 / 9; display: flex; flex-direction: column; overflow: hidden; border: 1px solid #1a3a3a; background: #000; }
-/* PATCH: Mobile sweep - 4 stacked sections */
-@media (max-width: 600px), (orientation: portrait) {
-  .sweep-inner-16-9 { width: 100vw !important; height: 100vh !important; aspect-ratio: unset !important; border: none !important; }
-  .sweep-sec-eq { height: 130px !important; min-height: 130px !important; }
-  #sweep-bars-canvas { height: 100px !important; }
-}
-.sweep-title { font-family: var(--head); font-size: 0.68rem; font-weight: 900; letter-spacing: 0.18em; color: var(--b); text-shadow: 0 0 10px var(--b); }
-.sweep-node-counter { font-family: var(--head); font-size: 0.48rem; font-weight: 700; color: var(--g); letter-spacing: 0.1em; }
+.sweep-inner-16-9 { width: 100vw; height: 100vh; display: flex; flex-direction: column; overflow: hidden; background: #000; }
+.sweep-title { font-family: var(--head); font-size: 0.68rem; font-weight: 900; letter-spacing: 0.18em; display: flex; align-items: center; gap: 6px; }
+.sweep-title-ipno { color: #fff; animation: ipnoFade 4s ease-in-out infinite; }
+@keyframes ipnoFade { 0%,100%{color:#fff;text-shadow:0 0 6px rgba(255,255,255,0.3);} 50%{color:#111;text-shadow:none;} }
+.sweep-title-sweep { color: var(--b); text-shadow: 0 0 10px var(--b); }
+.sweep-node-counter { font-family: var(--head); font-size: 0.44rem; font-weight: 700; color: var(--g); letter-spacing: 0.1em; }
 .sweep-alert-badge { font-size: 0.46rem; font-weight: 700; letter-spacing: 0.12em; padding: 2px 8px; display: none; }
 .sweep-alert-badge.green { display: inline-block; border: 1px solid var(--g); color: var(--g); }
 .sweep-alert-badge.yellow { display: inline-block; border: 1px solid var(--y); color: var(--y); background: rgba(255,230,0,0.06); }
 .sweep-alert-badge.red { display: inline-block; border: 1px solid var(--r); color: var(--r); background: rgba(255,34,68,0.08); animation: redPulse 1s ease-in-out infinite; }
 @keyframes redPulse { 0%,100%{box-shadow:0 0 0 rgba(255,34,68,0);} 50%{box-shadow:0 0 14px rgba(255,34,68,0.5);} }
 .sweep-grid { flex: 1; display: flex; flex-direction: column; overflow: hidden; min-height: 0; }
-.sweep-sec-radar { flex: 2; position: relative; overflow: hidden; min-height: 0; border-bottom: 1px solid #0a1a0a; }
+.sweep-sec-chat { flex: 0.8; display: flex; flex-direction: column; overflow: hidden; min-height: 60px; border-bottom: 1px solid #0a1a0a; order: 1; }
+.sweep-sec-radar { flex: 2; position: relative; overflow: hidden; min-height: 0; border-bottom: 1px solid #0a1a0a; order: 2; }
 .sweep-sec-radar canvas { width: 100%; height: 100%; display: block; }
 .sweep-radar-label { position: absolute; bottom: 6px; left: 10px; font-size: 0.42rem; color: var(--g); letter-spacing: 0.12em; }
-.sweep-sec-chat { flex: 1; display: flex; flex-direction: column; overflow: hidden; min-height: 80px; border-bottom: 1px solid #0a1a0a; }
-.sweep-sec-eq { flex-shrink: 0; padding: 4px 8px; height: 120px; min-height: 120px; }
+.sweep-sec-eq { flex-shrink: 0; padding: 4px 8px; height: 120px; min-height: 120px; order: 3; }
 .sweep-bars-head { display: flex; justify-content: space-between; align-items: center; font-size: 0.38rem; color: #4a8a4a; letter-spacing: 0.1em; margin-bottom: 3px; }
 #sweep-bars-canvas { width: 100%; height: 90px; display: block; }
-.sweep-chat-head { display: flex; align-items: center; gap: 6px; padding: 8px 10px; font-size: 0.46rem; color: var(--g); letter-spacing: 0.12em; border-bottom: 1px solid #0a1a0a; flex-shrink: 0; }
+.sweep-chat-head { display: flex; align-items: center; gap: 6px; padding: 6px 10px; font-size: 0.46rem; color: var(--g); letter-spacing: 0.12em; border-bottom: 1px solid #0a1a0a; flex-shrink: 0; }
+.sweep-chat-head-right { margin-left: auto; display: flex; align-items: center; gap: 6px; }
 .sweep-chat-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--g); box-shadow: 0 0 4px var(--g); animation: blink 1.6s infinite; }
 .sweep-chat-log { flex: 1; overflow-y: auto; padding: 4px 8px; min-height: 0; }
 .sweep-chat-log::-webkit-scrollbar { width: 2px; }
@@ -729,11 +727,8 @@ body::after {
 .sw-msg-time { color: #2a2a2a; flex-shrink: 0; font-size: 0.36rem; }
 .sw-msg-name { font-weight: 700; flex-shrink: 0; color: #fff !important; }
 .sw-msg-text { /* persona color set inline by JS */ }
-/* Sweep topbar — 2 lines */
-.sweep-topbar { background: #000; border-bottom: 1px solid #1a1a1a; display: flex; flex-direction: column; padding: 0; flex-shrink: 0; }
-.sweep-top-line1 { display: flex; align-items: center; justify-content: space-between; padding: 6px 14px; border-bottom: 1px solid #0a0a0a; }
-.sweep-top-line2 { display: flex; align-items: center; justify-content: center; gap: 10px; padding: 4px 14px; }
-.sweep-top-line2 .sweep-alert-badge { margin: 0; }
+/* Sweep topbar — single line */
+.sweep-topbar { background: #000; border-bottom: 1px solid #1a1a1a; display: flex; align-items: center; justify-content: space-between; padding: 6px 14px; flex-shrink: 0; min-height: 40px; }
 .sweep-kick-btn { padding: 3px 10px; background: rgba(255,34,68,0.08); border: 1px solid var(--r); color: var(--r); font-family: var(--head); font-size: 0.42rem; font-weight: 700; letter-spacing: 0.1em; cursor: pointer; transition: all 0.15s; }
 .sweep-kick-btn:hover { background: var(--r); color: #000; }
 .sweep-threshold-box { flex-shrink: 0; min-height: 0; overflow: hidden; display: none; border-top: 1px solid #0a0a0a; }
@@ -899,7 +894,7 @@ body.admin-bw .cm-admin-tag { background: var(--g) !important; color: #000 !impo
   <div class="kyc-body" style="padding-top:8px;">
     <div style="font-size:0.5rem;color:#3a6a3a;letter-spacing:0.08em;line-height:1.9;padding:0 18px 14px;border-bottom:1px solid #080808;margin-bottom:14px;">
       ■ ENTER YOUR I-NET ID TO RETURN TO YOUR I-NET NODE<br>
-      ■ OTP WILL BE SENT TO YOUR AADHAAR-LINKED PHONE<br>
+      ■ OTP WILL BE SENT TO YOUR IPNOTEC CONTACT NUMBER<br>
       ■ FORMAT: <span style="color:var(--g);">INET_CALLSIGN_CITY_PIN</span>
     </div>
     <div class="kyc-block active" id="rl-b1">
@@ -972,11 +967,11 @@ body.admin-bw .cm-admin-tag { background: var(--g) !important; color: #000 !impo
       </div></div>
     </div>
     <div class="kyc-block" id="kyc-b2">
-      <div class="kyc-block-hdr"><div class="kyc-num" id="kyc-n2">2</div><div class="kyc-block-title">AADHAAR-LINKED PHONE OTP</div><div class="kyc-block-status" id="kyc-s2">LOCKED</div></div>
+      <div class="kyc-block-hdr"><div class="kyc-num" id="kyc-n2">2</div><div class="kyc-block-title">IPNOTEC CONTACT NUMBER</div><div class="kyc-block-status" id="kyc-s2">LOCKED</div></div>
       <div class="kyc-block-body"><div class="kyc-inner">
-        <label class="inp-label">PHONE NUMBER LINKED TO YOUR AADHAAR</label>
+        <label class="inp-label">YOUR CONTACT NUMBER FOR IPNOTEC</label>
         <div class="inp-wrap"><span class="inp-prefix">+91</span><input class="gen-inp" id="phone-inp" type="tel" maxlength="10" placeholder="98XXXXXXXX" oninput="onPhoneInput(this)"></div>
-        <div class="inp-hint">MUST MATCH AADHAAR-REGISTERED NUMBER</div>
+        <div class="inp-hint">THIS WILL BE YOUR PRIMARY IPNOTEC CONTACT</div>
         <button class="btn-cta" id="btn-send-phone-otp" disabled onclick="sendPhoneOTP()">SEND OTP →</button>
         <div id="phone-otp-section" style="display:none;margin-top:14px;">
           <div class="inp-label" style="text-align:center;margin-bottom:8px;">OTP SENT TO YOUR PHONE</div>
@@ -1181,7 +1176,7 @@ body.admin-bw .cm-admin-tag { background: var(--g) !important; color: #000 !impo
   <div class="radar-section" id="radar-section">
     <canvas class="radar-canvas" id="radar-canvas"></canvas>
     <div class="radar-you-label" id="radar-you-label">YOU ■ I-NET ADMIN</div>
-    <button class="radar-sweep-btn" id="radar-sweep-btn" onclick="openSweep()">▣ 16:9 SWEEP</button>
+    <button class="radar-sweep-btn" id="radar-sweep-btn" onclick="openSweep()">▣ DISPLAY</button>
   </div>
   <div class="chat-section" id="chat-section">
     <div class="chat-head"><div class="chat-head-title" id="chat-head-title">I-NET MESH · CHAT</div><div class="chat-head-right"><div class="chat-nodes-live" id="chat-nodes-live">● 0 LIVE</div></div></div>
@@ -1233,24 +1228,24 @@ body.admin-bw .cm-admin-tag { background: var(--g) !important; color: #000 !impo
 <div class="sweep-overlay" id="sweep-overlay">
   <div class="sweep-inner-16-9">
     <div class="sweep-topbar">
-      <div class="sweep-top-line1">
-        <div class="sweep-title">◈ RECON SWEEP</div>
-        <button class="at-close" onclick="closeSweep()">CLOSE ✕</button>
-      </div>
-      <div class="sweep-top-line2">
-        <div class="sweep-node-counter"><span id="sweep-nodes">--</span> / 55</div>
-        <div class="sweep-alert-badge" id="sweep-alert-badge"></div>
-        <button class="sweep-kick-btn" id="sweep-kick-btn" onclick="kickOldestSweepNode()">KICK OLDEST</button>
-      </div>
+      <div class="sweep-title">◈ <span class="sweep-title-ipno">IPNOTEC</span> <span class="sweep-title-sweep">SWEEP</span></div>
+      <button class="at-close" onclick="closeSweep()">CLOSE ✕</button>
     </div>
     <div class="sweep-grid">
+      <div class="sweep-sec-chat">
+        <div class="sweep-chat-head">
+          <div class="sweep-chat-dot"></div><span>LIVE MESH CHAT</span>
+          <div class="sweep-chat-head-right">
+            <div class="sweep-alert-badge" id="sweep-alert-badge"></div>
+            <span class="sweep-node-counter" id="sweep-nodes-display">--</span>
+            <button class="sweep-kick-btn" id="sweep-kick-btn" onclick="kickOldestSweepNode()">KICK OLDEST</button>
+          </div>
+        </div>
+        <div class="sweep-chat-log" id="sweep-chat-log"></div>
+      </div>
       <div class="sweep-sec-radar">
         <canvas id="sweep-radar-canvas"></canvas>
         <div class="sweep-radar-label" id="sweep-radar-label">SCANNING MESH…</div>
-      </div>
-      <div class="sweep-sec-chat">
-        <div class="sweep-chat-head"><div class="sweep-chat-dot"></div><span>LIVE MESH CHAT</span><span id="sweep-chat-count" style="margin-left:auto;color:#4a8a4a;">0</span></div>
-        <div class="sweep-chat-log" id="sweep-chat-log"></div>
       </div>
       <div class="sweep-sec-eq">
         <div class="sweep-bars-head"><span>■ NODE ACTIVITY · 1→55</span><span id="sweep-bars-online">0 ONLINE</span></div>
@@ -1364,6 +1359,15 @@ function playPingResponse(){ playTone(660, 0.04, 'sine', 0.12); }
 function playDisconnect() { [440,330,220].forEach((f,i)=>setTimeout(()=>playTone(f,0.05,'sawtooth',0.15),i*130)); }
 function playAdminOpen()  { playTone(800, 0.06, 'square', 0.08); }
 function playClick()      { playTone(600, 0.05, 'square', 0.06); }
+function playSonar() {
+  let sonarIV = setInterval(()=>{
+    playTone(260,0.18,'sine',0.8); setTimeout(()=>playTone(260,0.12,'sine',0.6),350); setTimeout(()=>playTone(390,0.08,'sine',0.5),700);
+  }, 2000);
+  /* First ping immediately */
+  playTone(260,0.18,'sine',0.8); setTimeout(()=>playTone(260,0.12,'sine',0.6),350); setTimeout(()=>playTone(390,0.08,'sine',0.5),700);
+  /* Stop after 16s */
+  setTimeout(()=>clearInterval(sonarIV), 16000);
+}
 function playMap()        { [330,440,550,660].forEach((f,i)=>setTimeout(()=>playTone(f,0.07,'sine',0.15),i*120)); }
 function playShipped()    { [523,659,784,880,1047].forEach((f,i)=>setTimeout(()=>playTone(f,0.08,'sine',0.22),i*140)); }
 
@@ -1455,7 +1459,12 @@ function startMapping() {
   const iv=setInterval(()=>{ status.textContent=msgs[progress]||msgs[msgs.length-1]; progress++; if(progress>=msgs.length){ clearInterval(iv); status.classList.add('mapped'); playMap();
     const geoCity=GEO_CITIES.find(g=>g.city===S.city)||GEO_CITIES[0]; activateGeoLock(geoCity); updateCCNamePreview(S.ccName);
     document.getElementById('map-cc-id').innerHTML='INET_<span style="color:var(--g);">'+S.ccName+'</span>_<span style="color:#4a8a4a;">'+S.city+'</span>_<span style="color:#6aaa6a;">'+S.pincode+'</span>';
-    setTimeout(()=>{ goScreen('sc-package'); updateProgress(3); },900); } },600);
+    /* Wait for geo lock to finish (360ms × 12 = 4.3s) then confirm */
+    setTimeout(()=>{
+      status.textContent='GEO LOCKED · CONFIRM TO PROCEED';
+      btn.disabled=false; btn.textContent='CONFIRM LOCATION →';
+      btn.onclick=function(){ btn.disabled=true; btn.textContent='CONFIRMED ✓'; playVerified(); setTimeout(()=>{ goScreen('sc-package'); updateProgress(3); },600); };
+    },4500); } },600);
 }
 /* PACKAGE */
 function selectPackage(pkg,name) { S.package=pkg; S.packageName=name; document.getElementById('pkg-hw').classList.toggle('selected',pkg==='50005'); document.getElementById('pkg-sw').classList.toggle('selected',pkg==='5005'); document.getElementById('btn-pkg-next').disabled=false; playClick(); }
@@ -1501,7 +1510,7 @@ function enterCC() { S.color={key:'G',name:S.ccName||'ADMIN',hex:'#39FF14'}; set
 function setupCCDashboard() {
   const c=S.color; document.getElementById('sb-ccname').style.display='block'; document.getElementById('sb-ccname').textContent=c.name; document.getElementById('ci-you-name').textContent=c.name;
   document.getElementById('radar-you-label').innerHTML='<span style="color:#FF6200;text-shadow:0 0 6px rgba(255,98,0,0.5);">■ '+c.name+'</span> [ADMIN]';
-  document.getElementById('chat-you-sq').style.background=c.hex; document.getElementById('chat-you-sq').style.boxShadow='0 0 5px '+c.hex; document.getElementById('chat-inp').placeholder='['+c.name+'] TYPE A MESSAGE…'; document.getElementById('chat-head-title').textContent=c.name+' · I-NET NODE'; document.getElementById('sweep-nodes').textContent=networkNodes.length+1;
+  document.getElementById('chat-you-sq').style.background=c.hex; document.getElementById('chat-you-sq').style.boxShadow='0 0 5px '+c.hex; document.getElementById('chat-inp').placeholder='['+c.name+'] TYPE A MESSAGE…'; document.getElementById('chat-head-title').textContent=c.name+' · I-NET NODE'; const _sn=document.getElementById('sweep-nodes-display'); if(_sn) _sn.textContent=networkNodes.length+1;
   initRadar(); seedChat(); S.dataUsed=Math.floor(Math.random()*10+2); S.hourlyData=Array.from({length:8},()=>0);
   setInterval(()=>{ S.dataUsed+=Math.random()*8+1; const slot=Math.min(Math.floor((24*3600-S.sessionSecs)/(3*3600)),7); if(!S.hourlyData[slot]) S.hourlyData[slot]=0; S.hourlyData[slot]+=Math.random()*12; },8000);
   renderAdminSessions(); renderAdminUsage();
@@ -1613,8 +1622,11 @@ function updateSweepColor(hex) {
   const cs = document.getElementById('chat-section');
   if(cs) { cs.style.borderTopColor = hex; }
   /* Tint sweep title */
-  const st = document.querySelector('.sweep-title');
+  const st = document.querySelector('.sweep-title-sweep');
   if(st) { st.style.color = hex; st.style.textShadow = '0 0 10px ' + hex; }
+  /* Tint node counter in persona color */
+  const nc = document.getElementById('sweep-nodes-display');
+  if(nc) { nc.style.color = hex; }
 }
 
 function seedChat() { const log=document.getElementById('chat-log'); log.innerHTML=''; SEED_MSGS.forEach((m,i)=>{ const node=networkNodes.find(n=>n.key===m.node)||networkNodes[i%networkNodes.length]; if(!node) return; setTimeout(()=>addChatMessage(node.key,node.name,node.hex,m.text,false),i*180); }); }
@@ -1634,7 +1646,7 @@ function addChatMessage(key, name, hex, text, isYou, isResponse) {
   allChatMessages.push({t,key,name:displayName,hex,text,isYou});
   const meta=document.getElementById('exp-chat-meta'); if(meta) meta.textContent=allChatMessages.length+' MESSAGES';
   if(!isYou && !isResponse) { playChatReceive(); updateSweepColor(hex); drawMiniGraph(hex); }
-  if(isYou && typeof triggerAdminFlash==='function') { triggerAdminFlash(); drawMiniGraph('#39FF14'); }
+  if(isYou && typeof triggerAdminFlash==='function') { triggerAdminFlash(); drawMiniGraph('#39FF14'); playSonar(); }
   if(typeof addSweepChatMsg==='function') addSweepChatMsg({t,key,name:isYou?(S.ccName||name):displayName,hex,text,isYou});
 }
 
@@ -1757,11 +1769,11 @@ function drawSweepRadar(canvas,cx,cy,maxR,W,H) {
     sweepRadarAF=requestAnimationFrame(frame);
   } frame();
 }
-function drawSweepBars() { const canvas=document.getElementById('sweep-bars-canvas'); if(!canvas) return; const wrap=canvas.parentElement; const W=wrap.clientWidth-4; const H=60; canvas.width=W;canvas.height=H; const ctx=canvas.getContext('2d'); ctx.clearRect(0,0,W,H); const barW=Math.max(1,Math.floor(W/SWEEP_MAX)-1); sweepLiveNodes.forEach((n,i)=>{ if(!n.online) return; const h=4+n.activity*(H-8); ctx.fillStyle=n.hex; ctx.globalAlpha=0.7+n.activity*0.3; ctx.fillRect(i*(barW+1),H-h,barW,h); }); ctx.globalAlpha=1; document.getElementById('sweep-bars-online').textContent=sweepLiveNodes.filter(n=>n.online).length+' ONLINE'; }
+function drawSweepBars() { const canvas=document.getElementById('sweep-bars-canvas'); if(!canvas) return; const wrap=canvas.parentElement; const W=wrap.clientWidth-4; const H=canvas.clientHeight||90; canvas.width=W;canvas.height=H; const ctx=canvas.getContext('2d'); ctx.clearRect(0,0,W,H); const barW=Math.max(1,Math.floor(W/SWEEP_MAX)-1); sweepLiveNodes.forEach((n,i)=>{ if(!n.online) return; const h=4+n.activity*(H-8); ctx.fillStyle=n.hex; ctx.globalAlpha=0.7+n.activity*0.3; ctx.fillRect(i*(barW+1),H-h,barW,h); }); ctx.globalAlpha=1; document.getElementById('sweep-bars-online').textContent=sweepLiveNodes.filter(n=>n.online).length+' ONLINE'; }
 function startSweepChatFeed() { const log=document.getElementById('sweep-chat-log'); if(!log) return; log.innerHTML=''; sweepChatMsgs=[]; allChatMessages.slice(-8).forEach(m=>addSweepChatMsg(m)); }
 function addSweepChatMsg(m) { if(!sweepOpen) return; const log=document.getElementById('sweep-chat-log'); if(!log) return; const div=document.createElement('div'); div.className='sw-msg'; div.innerHTML='<span class="sw-msg-time">['+m.t+']</span><span class="sw-msg-name">'+m.name+'</span><span class="sw-msg-text" style="color:'+m.hex+';">'+m.text+'</span>'; log.appendChild(div); if(log.children.length>30) log.removeChild(log.firstChild); log.scrollTop=log.scrollHeight; sweepChatMsgs.push(m); const cntEl=document.getElementById('sweep-chat-count'); if(cntEl) cntEl.textContent=sweepChatMsgs.length; }
 function updateSweepThresholds() {
-  const onlineCount=sweepLiveNodes.filter(n=>n.online).length; const badge=document.getElementById('sweep-alert-badge'); const nodesEl=document.getElementById('sweep-nodes'); if(nodesEl) nodesEl.textContent=onlineCount;
+  const onlineCount=sweepLiveNodes.filter(n=>n.online).length; const badge=document.getElementById('sweep-alert-badge'); const nodesEl=document.getElementById('sweep-nodes-display'); if(nodesEl) nodesEl.textContent=onlineCount;
   const kickBtn=document.getElementById('sweep-kick-btn');
   const oldest=sweepLiveNodes.filter(n=>n.online).sort((a,b)=>a.lastActive-b.lastActive)[0];
   if(kickBtn && oldest) kickBtn.textContent='KICK '+oldest.name;
@@ -1808,14 +1820,16 @@ const GEO_CITIES = [
 ];
 function activateGeoLock(cityData) {
   const box=document.getElementById('geo-lock-box'); if(!box) return; box.classList.add('show');
+  box.style.background='rgba(57,255,20,0.04)'; box.style.boxShadow='0 0 20px rgba(57,255,20,0.08)';
   const latEl=document.getElementById('geo-lat'); const lngEl=document.getElementById('geo-lng'); const accEl=document.getElementById('geo-acc');
   let steps=0; const iv=setInterval(()=>{
     const jLat=(parseFloat(cityData.lat)+(Math.random()-0.5)*0.0012).toFixed(6); const jLng=(parseFloat(cityData.lng)+(Math.random()-0.5)*0.0012).toFixed(6);
     latEl.textContent='LAT: '+jLat; lngEl.textContent='LNG: '+jLng; accEl.textContent='ACCURACY: ±'+Math.floor(8+Math.random()*20)+' METERS';
     playTone(440+steps*30,0.02,'sine',0.04); steps++;
     if(steps>=12){ clearInterval(iv); latEl.textContent='LAT: '+cityData.lat; lngEl.textContent='LNG: '+cityData.lng; accEl.textContent='ACCURACY: ±8 METERS · LOCKED';
+      box.style.boxShadow='0 0 30px rgba(57,255,20,0.15)';
       const badge=document.getElementById('geo-locked-badge'); if(badge) badge.classList.add('show'); playVerified(); }
-  },120);
+  },360);
 }
 
 /* ══ MINI GRAPH — message-triggered EQ wave using node colors ══ */
